@@ -1,0 +1,22 @@
+$pb-slider-btn-width: 30px;
+.pb-slider
+{
+    background-color: gray;
+    font-size: 0px;
+    min-height: 4px;
+    margin-top: 20px;
+    margin-bottom: calc($pb-slider-btn-width - 4px);
+    position: relative;
+    cursor:pointer;
+    .pb-slider-value
+    {
+        font-size: 0px;
+        background-color: #6a6a6a;
+        position: absolute;
+        height: $pb-slider-btn-width;
+        width: $pb-slider-btn-width;
+        top: calc(0px - ($pb-slider-btn-width/2));
+        border: solid 1px #cfcfcf;
+        border-radius: 4px;
+    }
+}

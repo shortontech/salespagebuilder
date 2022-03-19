@@ -1,0 +1,142 @@
+// Custom.scss
+// Option A: Include all of Bootstrap
+
+// Include any default variable overrides here (though functions won't be available)
+$grid-columns:      24;
+$grid-gutter-width: 1.5rem;
+$grid-breakpoints: (
+  xs: 0,
+  md: 768px
+);
+/**
+#04E762
+#F5B700
+#DC0073
+#008BF8
+#89FC00
+*/
+
+$fa-font-path: '~@fortawesome/fontawesome-free/webfonts'; 
+@import '~@fortawesome/fontawesome-free/scss/fontawesome';
+@import '~@fortawesome/fontawesome-free/scss/solid';
+@import '~@fortawesome/fontawesome-free/scss/regular';
+
+@import "../../node_modules/bootstrap/scss/bootstrap";
+
+// Then add additional custom code here
+// Custom.scss
+// Option B: Include parts of Bootstrap
+
+// 1. Include functions first (so you can manipulate colors, SVGs, calc, etc)
+@import "../../node_modules/bootstrap/scss/functions";
+
+// 2. Include any default variable overrides here
+
+// 3. Include remainder of required Bootstrap stylesheets
+@import "../../node_modules/bootstrap/scss/variables";
+@import "../../node_modules/bootstrap/scss/mixins";
+
+// 4. Include any optional Bootstrap components as you like
+@import "../../node_modules/bootstrap/scss/root";
+@import "../../node_modules/bootstrap/scss/reboot";
+@import "../../node_modules/bootstrap/scss/type";
+@import "../../node_modules/bootstrap/scss/images";
+@import "../../node_modules/bootstrap/scss/containers";
+@import "../../node_modules/bootstrap/scss/grid";
+
+// 5. Add additional custom code here
+html
+{
+    font-size: 20px;
+}
+$settings-panel-width: 400px;
+.pb-document {
+    .pb-section, .pb-row, .pb-column > .cssTarget {
+        padding-top: 10px;
+        padding-bottom: 10px;
+        
+    }
+
+
+    // .pb-element {
+    //     margin-top: 20px;
+    // }
+    $selected-border-width: 3px;
+    $selected-item-side-padding: 10px;
+    $color-set-1: #04E762; // Malachite
+    $color-set-2: #F5B700; // Mango
+    $color-set-3: #DC0073;
+    $color-set-4: #008BF8;
+    $color-set-5:#89FC00;
+
+    .pb-element-selected {
+        border: solid $selected-border-width $color-set-2 !important;
+        padding-left: $selected-item-side-padding;
+        padding-right: $selected-item-side-padding;
+    }
+    .pb-row-selected {
+        border: solid $selected-border-width $color-set-3 !important;
+        padding-left: $selected-item-side-padding;
+        padding-right: $selected-item-side-padding;
+    }
+    .pb-section-selected {
+        border: solid $selected-border-width $color-set-1 !important;
+        padding-left: $selected-item-side-padding;
+        padding-right: $selected-item-side-padding;
+    }
+    $toolbar-button-border-width: 1px;
+    $toolbar-button-size: 33px;
+
+    .pb-section-button,
+    .pb-row-button,
+    .pb-element-button {
+        cursor: pointer;
+        display: inline-block;
+        border: solid 1px black;
+        line-height: calc($toolbar-button-size - ($toolbar-button-border-width*2));
+        height: calc($toolbar-button-size - ($toolbar-button-border-width*2));
+        width: calc($toolbar-button-size - ($toolbar-button-border-width*2));
+        background-color:rgba(255,255,255,0.7);
+        text-align:center;
+        margin-left: 10px;
+    }
+    .pb-element-button
+    {
+        margin-left: 0px;
+        margin-right: 10px;
+    }
+
+    .pb-section-selected
+    {
+        position: relative;
+    }
+    .pb-section-toolbar,
+    .pb-row-toolbar
+    {
+        text-align: right;
+    }
+
+    .document.pb-settings-open
+    {
+        padding-right: calc($settings-panel-width + 20px);
+    }
+}
+.pb-editor
+{
+    .pb-row-settings
+    {
+        position: fixed;
+        right: 0px;
+        top: 0px;
+        width: $settings-panel-width;
+        height: 100vh;
+        background-color: black;
+        color: white;
+        border-left: solid 20px yellow;
+        padding: 0px 20px;
+        h1 {
+            font-size: 1.5rem;
+        }
+    }
+    @import 'editor/slider.scss';
+}
