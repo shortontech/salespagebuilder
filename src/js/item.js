@@ -1,5 +1,6 @@
 'use strict'
 import { cloneItem } from './helpers.js'
+import { Sidebar } from './tools/sidebar.js'
 export default class Item {
   changeNode (node, callback) {
     if (this.activeNode === node) {
@@ -47,6 +48,14 @@ export default class Item {
 
   setMakeToolbarFunc (callback) {
     this.makeToolbarCallback = callback
+  }
+
+  createSidebar (itemType) {
+    this.sidebar = new Sidebar(itemType)
+  }
+
+  getSidebar () {
+    return this.sidebar
   }
 
   moveToolbar () {
@@ -123,18 +132,21 @@ export default class Item {
     return this.activeNode
   }
 
-  constructor (defaultClassList, selectedClass) {
+  constructor (defaultClassList, selectedClass, itemType) {
     // vars
     this.activeNode = null
     this.defaultClassList = defaultClassList
     this.selectedClass = selectedClass
     this.makeToolbarCallback = null
     this.toolbarNode = null
+    this.sidebar = null
 
     // functions
     this.addClasses = this.addClasses.bind(this)
     this.addClass = this.addClass.bind(this)
     this.make = this.make.bind(this)
     this.changeNode = this.changeNode.bind(this)
+
+    this.createSidebar(itemType)
   }
 }

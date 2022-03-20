@@ -109,3 +109,12 @@ document.addEventListener('mousemove', function (e) {
 
 window.pageBuilder = pageBuilder
 window.feather = feather
+window.addEventListener('load', function () {
+  const itemTypes = ['section', 'row', 'column', 'element']
+  const editorArr = Object.values(document.getElementsByClassName('pb-editor'))
+  const editorEle = editorArr.pop()
+  itemTypes.forEach(function (itemType) {
+    const sidebar = pageBuilder[itemType].getSidebar()
+    editorEle.appendChild(sidebar.getElement())
+  })
+})

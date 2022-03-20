@@ -1,7 +1,7 @@
 'use strict'
 import Item from '../item.js'
 import { DivCreator, createIcon } from '../helpers.js'
-const element = new Item(['pb-element'], 'pb-element-selected')
+const element = new Item(['pb-element'], 'pb-element-selected', 'element')
 element.setMakeToolbarFunc(function () {
   return (new DivCreator())
     .class('pb-element-toolbar')

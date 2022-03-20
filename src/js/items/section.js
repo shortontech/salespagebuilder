@@ -2,7 +2,7 @@
 import Item from '../item.js'
 import { DivCreator, createIcon } from '../helpers.js'
 
-const section = new Item(['container', 'pb-section'], 'pb-section-selected')
+const section = new Item(['container', 'pb-section'], 'pb-section-selected', 'section')
 section.setMakeToolbarFunc(function () {
   return (new DivCreator())
     .class('pb-section-toolbar')

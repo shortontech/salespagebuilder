@@ -2,7 +2,7 @@
 import Item from '../item.js'
 import { DivCreator, createIcon } from '../helpers.js'
 
-const row = new Item(['pb-row', 'row'], 'pb-row-selected')
+const row = new Item(['pb-row', 'row'], 'pb-row-selected', 'row')
 
 row.setMakeToolbarFunc(function () {
   return (new DivCreator())
@@ -16,5 +16,4 @@ row.setMakeToolbarFunc(function () {
     ])
     .get()
 })
-
 export default row
