@@ -1,7 +1,32 @@
 export default class Slider {
   click (handler) {
-    this.handlers.click.push(handler.bind(this))
+    this.listeners.click.push(handler.bind(this))
     return this
+  }
+
+  /**
+   * Set the value without firing events.
+   * @param {*} val
+   */
+  setValue (val) {
+    this.value = val
+    this.changeBtnPos()
+  }
+
+  changeBtnPos () {
+    const box = this.barElement.getBoundingClientRect()
+    const valBox = this.valueElement.getBoundingClientRect()
+    const valueFraction = (this.value - this.min) / (this.max - this.min)
+    const newLeft = (valueFraction * box.width) - (valBox.width / 2)
+    this.valueElement.style.left = newLeft + 'px'
+    console.log()
+  }
+
+  changeValue (val) {
+    if (this.value !== val) {
+      this.setValue(this.value = val)
+      this.fireEvent('change', val)
+    }
   }
 
   getValue () {
@@ -14,19 +39,20 @@ export default class Slider {
 
   _addMouseUpHandler () {
     const self = this
-    self.barElement.addEventListener('mouseup', function (e) {
+    const listenerFunc = function (e) {
       self.hasMouseDown = false
-    })
+    }
+    document.addEventListener('mouseup', listenerFunc)
+    document.addEventListener('blur', listenerFunc)
   }
 
   _addMouseDownHandler () {
     const self = this
     self.barElement.addEventListener('mousedown', function (e) {
-      // if (e.target !== self.barElement) {
-      //   return
-      // }
+      e.preventDefault()
       const pos = self.calculatePosition(e.x)
-      console.log(self.calculateNewValue(pos))
+      self.changeValue(self.calculateNewValue(pos))
+
       self.hasMouseDown = true
     })
   }
@@ -38,13 +64,16 @@ export default class Slider {
       if (!self.hasMouseDown) {
         return
       }
-      // Limit the number of times per second we can change the value.
+
+      // Limit the number of times per second we can
+      // the value to the refresh rate of the monitor
       if (!self.mouseMoveTimeout) {
         const pos = self.calculatePosition(e.x)
-        console.log(self.calculateNewValue(pos))
-        self.mouseMoveTimeout = setTimeout(function () {
-          self.mouseMoveTimeout = null
-        }, 100)
+        self.changeValue(self.calculateNewValue(pos))
+        self.mouseMoveTimeout = true
+        window.requestAnimationFrame(function () {
+          self.mouseMoveTimeout = false
+        })
       }
     })
   }
@@ -68,9 +97,18 @@ export default class Slider {
     this._addMouseUpHandler()
   }
 
+  fireEvent (eventType) {
+    const args = Object.keys(arguments)
+    args.shift() // Remove the event type from args.
+    const self = this
+    this.listeners[eventType].forEach(function (listeners) {
+      listeners.call(self, args)
+    })
+  }
+
   calculatePosition (mouseX) {
-    const boundingClientRect = this.barElement.getBoundingClientRect()
-    return (mouseX - boundingClientRect.left) / boundingClientRect.width
+    const box = this.barElement.getBoundingClientRect()
+    return (mouseX - box.left) / box.width
   }
 
   calculateNewValue (percent) {
@@ -99,7 +137,7 @@ export default class Slider {
       this.value = min
     }
 
-    this.handlers = {
+    this.listeners = {
       click: [],
       change: []
     }
