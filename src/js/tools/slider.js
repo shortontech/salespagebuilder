@@ -19,11 +19,11 @@ export default class Slider {
     const valueFraction = (this.value - this.min) / (this.max - this.min)
     const newLeft = (valueFraction * box.width) - (valBox.width / 2)
     this.valueElement.style.left = newLeft + 'px'
-    console.log()
   }
 
   changeValue (val) {
     if (this.value !== val) {
+      // Set the value and change the button position.
       this.setValue(this.value = val)
       this.fireEvent('change', val)
     }
