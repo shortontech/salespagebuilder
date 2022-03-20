@@ -113,8 +113,15 @@ window.addEventListener('load', function () {
   const itemTypes = ['section', 'row', 'column', 'element']
   const editorArr = Object.values(document.getElementsByClassName('pb-editor'))
   const editorEle = editorArr.pop()
+
   itemTypes.forEach(function (itemType) {
     const sidebar = pageBuilder[itemType].getSidebar()
     editorEle.appendChild(sidebar.getElement())
   })
+
+  // DEBUG CODE: Show the sidebar
+  const rows = Object.values(document.getElementsByClassName('pb-row'))
+  const rowIndex = Math.floor(Math.random() * rows.length)
+  const selectedRow = rows[rowIndex]
+  pageBuilder.row.editElement(selectedRow)
 })

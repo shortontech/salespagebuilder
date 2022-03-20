@@ -20,6 +20,11 @@ export default class Item {
     }
   }
 
+  editElement (ele) {
+    this.selectedElement = ele
+    this.sidebar.editElement(this.selectedElement)
+  }
+
   setSelected () {
     if (this.selectedClass) {
       this.addClass(this.selectedClass)
