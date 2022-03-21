@@ -20,7 +20,14 @@ row.setMakeToolbarFunc(function () {
 
 row.sidebar.addEventListener('createWidgets', function () {
   const sidebar = this
-  const topMarginSlider = new Slider('Top Margin', 'top-margin', 0, 200, 10)
-  sidebar.addWidget(topMarginSlider)
+  const options = sidebar.getStyleOptions()
+  const indexes = Object.keys(options)
+  indexes.forEach(function (index) {
+    const settings = options[index]
+    const widget = new Slider(settings)
+    sidebar.addWidget(widget)
+  })
+  // const topMarginSlider = new Slider('Top Margin', 'top-margin', 0, 200, 10)
+  // sidebar.addWidget(topMarginSlider)
 })
 export default row

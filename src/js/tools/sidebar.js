@@ -53,6 +53,38 @@ export class Sidebar {
     })
   }
 
+  getStyleOptions () {
+    const options = {}
+    options['margin-top'] = {
+      type: 'pixel',
+      path: 'marginTop',
+      label: 'Top Margin',
+      default: 10,
+      increment: 10,
+      min: 0,
+      max: 100
+    }
+    options['padding-top'] = {
+      type: 'pixel',
+      path: 'paddingTop',
+      label: 'Bottom Padding',
+      default: 10,
+      increment: 10,
+      min: 0,
+      max: 100
+    }
+    options['padding-bottom'] = {
+      type: 'pixel',
+      path: 'paddingTop',
+      label: 'Top Padding',
+      default: 10,
+      increment: 10,
+      min: 0,
+      max: 100
+    }
+    return options
+  }
+
   addEventListener (eventType, listener) {
     this.listeners[eventType].push(listener)
   }

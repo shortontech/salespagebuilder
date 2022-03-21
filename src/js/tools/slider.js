@@ -16,7 +16,7 @@ export default class Slider {
   changeBtnPos () {
     const box = this.barElement.getBoundingClientRect()
     const valBox = this.valueElement.getBoundingClientRect()
-    const valueFraction = (this.value - this.min) / (this.max - this.min)
+    const valueFraction = (this.value - this.settings.min) / (this.settings.max - this.settings.min)
     const newLeft = (valueFraction * box.width) - (valBox.width / 2)
     this.valueElement.style.left = newLeft + 'px'
   }
@@ -82,7 +82,7 @@ export default class Slider {
     this.element = document.createElement('div')
     this.element.classList.add('pb-slider')
     this.labelElement = document.createElement('label')
-    this.labelElement.innerText = this.label
+    this.labelElement.innerText = this.settings.label
     this.element.appendChild(this.labelElement)
     this.barElement = document.createElement('div')
     this.barElement.classList.add('pb-slider-bar')
@@ -112,30 +112,18 @@ export default class Slider {
   }
 
   calculateNewValue (percent) {
-    const range = this.max - this.min
-    const possibleValues = range / this.increment
-    let newVal = Math.round(possibleValues * percent) * this.increment
+    const range = this.settings.max - this.settings.min
+    const possibleValues = range / this.settings.increment
+    let newVal = Math.round(possibleValues * percent) * this.settings.increment
     // Force the new value into the range.
-    newVal = Math.max(newVal, this.min)
-    return Math.min(newVal, this.max)
+    newVal = Math.max(newVal, this.settings.min)
+    return Math.min(newVal, this.settings.max)
   }
 
-  constructor (label, name, min, max, increment, value) {
-    if (!label || !name || Number.isNaN(min) || Number.isNaN(max) || Number.isNaN(increment)) {
-      throw Error('Invalid aruments')
-    }
-    this.label = label
-    this.name = name
-    this.min = min
-    this.max = max
-    this.increment = increment
+  constructor (settings) {
+    this.settings = settings
     this.hasMouseDown = false
     this.mouseMoveTimeout = null
-    if (value) {
-      this.value = value
-    } else {
-      this.value = min
-    }
 
     this.listeners = {
       click: [],
