@@ -1,3 +1,4 @@
+import Slider from '../tools/slider.js'
 export class Sidebar {
   getElement () {
     return this.element
@@ -10,8 +11,27 @@ export class Sidebar {
   show () {
     this.element.style.display = ''
     if (!this.elementsCreated) {
-      this.fireEvent('createWidgets')
+      this.createWidgets()
     }
+  }
+
+  createWidgets () {
+    const sidebar = this
+    const configs = sidebar.getWidgetConfigs()
+    configs.forEach(function (config) {
+      console.log('type', config.type)
+      let widget = null
+      switch (config.type) {
+        case 'pixel':
+          widget = new Slider(config)
+          break
+        default:
+          console.log('Unknown type \'' + config.type + '\'')
+      }
+      if (widget != null) {
+        sidebar.addWidget(widget)
+      }
+    })
   }
 
   addWidget (widget) {
@@ -53,9 +73,9 @@ export class Sidebar {
     })
   }
 
-  getStyleOptions () {
-    const options = {}
-    options['margin-top'] = {
+  getWidgetConfigs () {
+    const options = [{
+      id: 'margin-top',
       type: 'pixel',
       path: 'marginTop',
       label: 'Top Margin',
@@ -63,8 +83,8 @@ export class Sidebar {
       increment: 10,
       min: 0,
       max: 100
-    }
-    options['padding-top'] = {
+    }, {
+      id: 'padding-top',
       type: 'pixel',
       path: 'paddingTop',
       label: 'Bottom Padding',
@@ -72,8 +92,8 @@ export class Sidebar {
       increment: 10,
       min: 0,
       max: 100
-    }
-    options['padding-bottom'] = {
+    }, {
+      id: 'padding-bottom',
       type: 'pixel',
       path: 'paddingTop',
       label: 'Top Padding',
@@ -81,7 +101,7 @@ export class Sidebar {
       increment: 10,
       min: 0,
       max: 100
-    }
+    }]
     return options
   }
 
@@ -96,7 +116,6 @@ export class Sidebar {
     this.listeners = {
       click: [],
       change: [],
-      createWidgets: [],
       editStart: [],
       editEnd: []
     }
