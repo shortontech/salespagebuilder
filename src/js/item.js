@@ -1,5 +1,5 @@
 'use strict'
-import { cloneItem } from './helpers.js'
+import { cloneItem, rgbaToHex } from './helpers.js'
 import { Sidebar } from './tools/sidebar.js'
 export default class Item {
   changeNode (node, callback) {
@@ -135,6 +135,48 @@ export default class Item {
     this.activeNode = document.createElement('div')
     this.addClasses(this.defaultClassList)
     return this.activeNode
+  }
+
+  getStyle (property) {
+    return window.getComputedStyle(this.selectedElement, null).getPropertyValue(property)
+  }
+
+  getStyleInt (property) {
+    return Number.parseFloat(this.getStyle(property))
+  }
+
+  getStyleColor (property) {
+    let val = this.getStyle(property)
+    if (val.startsWith('#')) {
+      return val.repelace('#', '')
+    }
+    if (val.startsWith('rgb')) {
+      // Strip rgba?
+      const start = val.indexOf('(')
+      const end = val.indexOf(')')
+
+      const arr = val.slice(start + 1, end).split(',')
+        .map(function (str) {
+          return Number.parseInt(str.trim())
+        })
+
+      // Make sure the alpha transparency number is in the array before converting.
+      if (arr.length === 3) {
+        arr.push(255)
+      }
+
+      val = rgbaToHex.apply(null, arr)
+    }
+    return val
+  }
+
+  readStyle () {
+    // const e = this.selectedElement
+    console.log('readstyle')
+    this.getStyleInt('padding-top')
+    this.getStyleInt('padding-bottom')
+    this.getStyleColor('background-color')
+    this.getStyleColor('color')
   }
 
   constructor (defaultClassList, selectedClass, itemType) {

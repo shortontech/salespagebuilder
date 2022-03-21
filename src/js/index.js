@@ -109,6 +109,7 @@ document.addEventListener('mousemove', function (e) {
 
 window.pageBuilder = pageBuilder
 window.feather = feather
+
 window.addEventListener('load', function () {
   const itemTypes = ['section', 'row', 'column', 'element']
   const editorArr = Object.values(document.getElementsByClassName('pb-editor'))
@@ -124,4 +125,6 @@ window.addEventListener('load', function () {
   const rowIndex = Math.floor(Math.random() * rows.length)
   const selectedRow = rows[rowIndex]
   pageBuilder.row.editElement(selectedRow)
+  pageBuilder.row.readStyle()
+  // Test code.
 })

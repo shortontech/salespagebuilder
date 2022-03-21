@@ -161,8 +161,11 @@ export function createIcon (iconClassStr, classStr, clickEvt) {
 export function rgbaToHex () {
   return Object.values(arguments).map(function (arg) {
     return arg.toString(16).padStart(2, '0')
-  }).join('')
+  })
+    .join('')
+    .padEnd(8, 'FF')
 }
+
 /**
  * Converts an RGB or RGBA hex string to a series of RGBA numbers.
  * Not including the octothorpe.
