@@ -1,4 +1,4 @@
-export class ElementCreator {
+export default class ElementCreator {
   class (className) {
     this.node.classList.add(className)
     return this
