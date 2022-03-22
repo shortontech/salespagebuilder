@@ -174,7 +174,6 @@ export default class Item {
 
   readStyle () {
     // const e = this.selectedElement
-    console.log('readstyle')
     this.getStyleInt('padding-top')
     this.getStyleInt('padding-bottom')
     this.getStyleColor('background-color')
