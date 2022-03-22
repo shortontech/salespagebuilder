@@ -1,9 +1,10 @@
 'use strict'
 import Item from '../item.js'
-import { DivCreator, createIcon } from '../helpers.js'
+import ElementCreator from '../helpers/element-creator.js'
+import { createIcon } from '../helpers.js'
 const element = new Item(['pb-element'], 'pb-element-selected', 'element')
 element.setMakeToolbarFunc(function () {
-  return (new DivCreator())
+  return (new ElementCreator())
     .class('pb-element-toolbar')
     .children([
       createIcon('fa-solid fa-trash-can', 'pb-element-clone pb-element-button', element.clone.bind(element)),

@@ -1,6 +1,5 @@
 'use strict'
 // import { cloneItem, rgbaToHex } from './helpers.js'
-import { rgbaToHex } from './helpers.js'
 import dom from './helpers/dom.js'
 import color from './helpers/color.js'
 import { Sidebar } from './tools/sidebar.js'

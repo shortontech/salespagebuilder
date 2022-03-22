@@ -6,10 +6,8 @@ import section from './items/section.js'
 import element from './items/element.js'
 
 import feather from 'feather-icons'
-import {
-  removeClassNamesFromElements,
-  deleteElementsByClassNames
-} from './helpers.js'
+import dom from './helpers/dom.js'
+
 let mouseMoveHandle = null
 const pageBuilder = {
   row: row,
@@ -34,13 +32,14 @@ pageBuilder.updateEditorBoxes = function () {
     'pb-row-selected',
     'pb-section-selected'
   ]
-  removeClassNamesFromElements(classNamesToRemove)
   const toolbarClassNames = [
     'pb-section-toolbar',
     'pb-row-toolbar',
     'pb-element-toolbar'
   ]
-  deleteElementsByClassNames(toolbarClassNames)
+
+  dom.removeClassNamesFromElements(classNamesToRemove)
+  dom.deleteElementsByClassNames(toolbarClassNames)
   pageBuilder[activeItem].moveToolbar()
   pageBuilder[activeItem].setSelected()
 }

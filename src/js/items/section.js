@@ -1,10 +1,11 @@
 'use strict'
 import Item from '../item.js'
-import { DivCreator, createIcon } from '../helpers.js'
+import { createIcon } from '../helpers.js'
+import ElementCreator from '../helpers/element-creator.js'
 
 const section = new Item(['container', 'pb-section'], 'pb-section-selected', 'section')
 section.setMakeToolbarFunc(function () {
-  return (new DivCreator())
+  return (new ElementCreator())
     .class('pb-section-toolbar')
     .children([
       createIcon('fa-solid fa-angle-up', 'pb-section-move-up pb-section-button', section.clone.bind(section)),
