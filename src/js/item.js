@@ -2,15 +2,15 @@
 // import { cloneItem, rgbaToHex } from './helpers.js'
 import dom from './helpers/dom.js'
 import color from './helpers/color.js'
-import { Sidebar } from './tools/sidebar.js'
+
 export default class Item {
   changeNode (node, callback) {
     if (this.activeNode === node) {
       return
     }
     // Clean up the original node.
-    if (this.selectedClass) {
-      this.removeClass(this.selectedClass)
+    if (this.itemType !== 'column') {
+      this.removeClass('pb-' + this.itemType + '-selected')
     }
 
     // Set the active node and add the selected class
@@ -28,19 +28,20 @@ export default class Item {
   }
 
   setSelected () {
-    if (this.selectedClass) {
-      this.addClass(this.selectedClass)
+    if (this.itemType !== 'column') {
+      this.addClass('pb-' + this.itemType + '-selected')
     }
   }
 
   clone () {
     console.log('clone called.')
     this.activeNode.parentNode.insertBefore(dom.clone(this.activeNode), this.activeNode)
+    this.fireEvent('clone', this.activeNode)
     return this
   }
 
   remove () {
-    console.log('Remove called.')
+    this.activeNode.parentNode.removeChild(this.activeNode)
     return this
   }
 
@@ -54,16 +55,37 @@ export default class Item {
     return this
   }
 
+  fireEvent (eventType) {
+    const args = Object.values(arguments)
+    args.shift() // Remove the event type from args.
+    const self = this
+    this.listeners[eventType].forEach(function (listeners) {
+      listeners.call(self, args)
+    })
+  }
+
+  addEventListener (eventType, listener) {
+    this.listeners[eventType].push(listener)
+  }
+
   setMakeToolbarFunc (callback) {
     this.makeToolbarCallback = callback
   }
 
-  createSidebar (itemType) {
-    this.sidebar = new Sidebar(itemType)
+  setSidebar (sidebar) {
+    this.sidebar = sidebar
+    if (this.itemType) {
+      this.sidebar.setItemType(this.itemType)
+    }
   }
 
   getSidebar () {
+    this.sidebar.setItemType(this.itemType)
     return this.sidebar
+  }
+
+  getItemType () {
+    return this.itemType
   }
 
   moveToolbar () {
@@ -180,21 +202,21 @@ export default class Item {
     this.getStyleColor('color')
   }
 
-  constructor (defaultClassList, selectedClass, itemType) {
-    // vars
-    this.activeNode = null
+  setDefaultClassList (defaultClassList) {
     this.defaultClassList = defaultClassList
-    this.selectedClass = selectedClass
-    this.makeToolbarCallback = null
-    this.toolbarNode = null
-    this.sidebar = null
-
-    // functions
-    this.addClasses = this.addClasses.bind(this)
-    this.addClass = this.addClass.bind(this)
-    this.make = this.make.bind(this)
-    this.changeNode = this.changeNode.bind(this)
-
-    this.createSidebar(itemType)
   }
+
+  setItemType (itemType) {
+    this.itemType = itemType
+  }
+}
+
+Item.prototype.defaultClassList = null
+Item.prototype.activeNode = null
+Item.prototype.makeToolbarCallback = null
+Item.prototype.toolbarNode = null
+Item.prototype.sidebar = null
+
+Item.prototype.listeners = {
+  clone: []
 }

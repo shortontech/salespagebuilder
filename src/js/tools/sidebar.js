@@ -1,6 +1,9 @@
 import Slider from '../tools/slider.js'
 export class Sidebar {
   getElement () {
+    if (!this.element) {
+      this._create()
+    }
     return this.element
   }
 
@@ -17,13 +20,7 @@ export class Sidebar {
 
   changeStyle (widget, value) {
     const settings = widget.settings
-    // path
-    // console.log('current style:', this.selectedElement.style[settings.path])
     this.selectedElement.style[settings.path] = this.getFormattedValue(value, settings.type)
-    // console.log('new style:', this.selectedElement.style[settings.path])
-    // console.log('expected style:', this.getFormattedValue(value, settings.type))
-    console.log('path', settings.path)
-    console.log('value', value)
   }
 
   getFormattedValue (value, type) {
@@ -130,8 +127,11 @@ export class Sidebar {
     this.listeners[eventType].push(listener)
   }
 
-  constructor (itemType) {
+  setItemType (itemType) {
     this.itemType = itemType
+  }
+
+  constructor (itemType) {
     this.elementsCreated = false
     this.widgets = []
     this.listeners = {
@@ -140,6 +140,5 @@ export class Sidebar {
       editStart: [],
       editEnd: []
     }
-    this._create()
   }
 }

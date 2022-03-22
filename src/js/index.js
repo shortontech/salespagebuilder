@@ -7,6 +7,7 @@ import element from './items/element.js'
 
 import feather from 'feather-icons'
 import dom from './helpers/dom.js'
+import { Sidebar } from './tools/sidebar'
 
 let mouseMoveHandle = null
 const pageBuilder = {
@@ -115,7 +116,9 @@ window.addEventListener('load', function () {
   const editorEle = editorArr.pop()
 
   itemTypes.forEach(function (itemType) {
-    const sidebar = pageBuilder[itemType].getSidebar()
+    const sidebar = new Sidebar()
+    sidebar.setItemType(itemType)
+    pageBuilder[itemType].setSidebar(sidebar)
     editorEle.appendChild(sidebar.getElement())
   })
 
