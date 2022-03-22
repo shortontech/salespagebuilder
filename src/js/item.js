@@ -1,5 +1,8 @@
 'use strict'
-import { cloneItem, rgbaToHex } from './helpers.js'
+// import { cloneItem, rgbaToHex } from './helpers.js'
+import { rgbaToHex } from './helpers.js'
+import dom from './helpers/dom.js'
+import color from './helpers/color.js'
 import { Sidebar } from './tools/sidebar.js'
 export default class Item {
   changeNode (node, callback) {
@@ -32,7 +35,7 @@ export default class Item {
   }
 
   clone () {
-    this.activeNode.parentNode.insertBefore(cloneItem(this.activeNode), this.activeNode)
+    this.activeNode.parentNode.insertBefore(dom.cloneItem(this.activeNode), this.activeNode)
     return this
   }
 
@@ -165,7 +168,7 @@ export default class Item {
         arr.push(255)
       }
 
-      val = rgbaToHex.apply(null, arr)
+      val = color.rgbaToHex.apply(null, arr)
     }
     return val
   }
