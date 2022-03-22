@@ -34,7 +34,8 @@ export default class Item {
   }
 
   clone () {
-    this.activeNode.parentNode.insertBefore(dom.cloneItem(this.activeNode), this.activeNode)
+    console.log('clone called.')
+    this.activeNode.parentNode.insertBefore(dom.clone(this.activeNode), this.activeNode)
     return this
   }
 
@@ -133,7 +134,6 @@ export default class Item {
   }
 
   make () {
-    console.log('make not built.')
     this.activeNode = document.createElement('div')
     this.addClasses(this.defaultClassList)
     return this.activeNode
