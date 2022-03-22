@@ -37,6 +37,10 @@ export default class Slider {
     return this.element
   }
 
+  addEventListener (eventType, listener) {
+    this.listeners[eventType].push(listener)
+  }
+
   _addMouseUpHandler () {
     const self = this
     const listenerFunc = function (e) {

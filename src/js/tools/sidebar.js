@@ -29,10 +29,14 @@ export class Sidebar {
           console.log('Unknown type \'' + config.type + '\'')
       }
       if (widget != null) {
+        widget.addEventListener('change', function () {
+          console.log('change')
+        })
         sidebar.addWidget(widget)
       }
     })
   }
+
 
   addWidget (widget) {
     console.log('adding widget', widget)
