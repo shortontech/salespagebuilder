@@ -102,7 +102,7 @@ export default class Slider {
   }
 
   fireEvent (eventType) {
-    const args = Object.keys(arguments)
+    const args = Object.values(arguments)
     args.shift() // Remove the event type from args.
     const self = this
     this.listeners[eventType].forEach(function (listeners) {

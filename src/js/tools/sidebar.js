@@ -15,31 +15,48 @@ export class Sidebar {
     }
   }
 
+  changeStyle (widget, value) {
+    const settings = widget.settings
+    // path
+    // console.log('current style:', this.selectedElement.style[settings.path])
+    this.selectedElement.style[settings.path] = this.getFormattedValue(value, settings.type)
+    // console.log('new style:', this.selectedElement.style[settings.path])
+    // console.log('expected style:', this.getFormattedValue(value, settings.type))
+    console.log('path', settings.path)
+    console.log('value', value)
+  }
+
+  getFormattedValue (value, type) {
+    switch (type) {
+      case 'pixel':
+        return value + 'px'
+      default:
+        throw Error('Unknown type ' + type)
+    }
+  }
+
   createWidgets () {
     const sidebar = this
     const configs = sidebar.getWidgetConfigs()
     configs.forEach(function (config) {
-      console.log('type', config.type)
       let widget = null
       switch (config.type) {
         case 'pixel':
           widget = new Slider(config)
           break
         default:
-          console.log('Unknown type \'' + config.type + '\'')
+          throw Error('Unknown type \'' + config.type + '\'')
       }
       if (widget != null) {
-        widget.addEventListener('change', function () {
-          console.log('change')
+        widget.addEventListener('change', function (value) {
+          sidebar.changeStyle(widget, value)
         })
         sidebar.addWidget(widget)
       }
     })
   }
 
-
   addWidget (widget) {
-    console.log('adding widget', widget)
     this.widgets.push(widget)
     this.widgetContainer.appendChild(widget.getElement())
   }
@@ -91,7 +108,7 @@ export class Sidebar {
       id: 'padding-top',
       type: 'pixel',
       path: 'paddingTop',
-      label: 'Bottom Padding',
+      label: 'Top padding',
       default: 10,
       increment: 10,
       min: 0,
@@ -99,8 +116,8 @@ export class Sidebar {
     }, {
       id: 'padding-bottom',
       type: 'pixel',
-      path: 'paddingTop',
-      label: 'Top Padding',
+      path: 'paddingBottom',
+      label: 'Bottom Padding',
       default: 10,
       increment: 10,
       min: 0,
