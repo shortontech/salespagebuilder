@@ -3,7 +3,7 @@ import Item from '../item.js'
 import { createIcon } from '../helpers.js'
 import ElementCreator from '../helpers/element-creator.js'
 
-const row = new Item(['pb-row', 'row'], 'pb-row-selected', 'row')
+const row = new Item()
 
 row.setItemType('row')
 row.setDefaultClassList(['pb-row', 'row'])
@@ -20,4 +20,5 @@ row.setMakeToolbarFunc(function () {
     ])
     .get()
 })
+
 export default row

@@ -1,4 +1,4 @@
-import Slider from '../tools/slider.js'
+import Slider from '../widgets/slider.js'
 export class Sidebar {
   getElement () {
     if (!this.element) {
@@ -19,6 +19,7 @@ export class Sidebar {
   }
 
   changeStyle (widget, value) {
+    console.log('widget, name', widget.settings.id, value)
     const settings = widget.settings
     this.selectedElement.style[settings.path] = this.getFormattedValue(value, settings.type)
   }

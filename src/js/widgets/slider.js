@@ -1,44 +1,11 @@
-export default class Slider {
-  click (handler) {
-    this.listeners.click.push(handler.bind(this))
-    return this
-  }
-
-  /**
-   * Set the value without firing events.
-   * @param {*} val
-   */
-  setValue (val) {
-    this.value = val
-    this.changeBtnPos()
-  }
-
+import Widget from '../widgets/widget.js'
+export default class Slider extends Widget {
   changeBtnPos () {
     const box = this.barElement.getBoundingClientRect()
     const valBox = this.valueElement.getBoundingClientRect()
     const valueFraction = (this.value - this.settings.min) / (this.settings.max - this.settings.min)
     const newLeft = (valueFraction * box.width) - (valBox.width / 2)
     this.valueElement.style.left = newLeft + 'px'
-  }
-
-  changeValue (val) {
-    if (this.value !== val) {
-      // Set the value and change the button position.
-      this.setValue(this.value = val)
-      this.fireEvent('change', val)
-    }
-  }
-
-  getValue () {
-    return this.value
-  }
-
-  getElement () {
-    return this.element
-  }
-
-  addEventListener (eventType, listener) {
-    this.listeners[eventType].push(listener)
   }
 
   _addMouseUpHandler () {
@@ -101,15 +68,6 @@ export default class Slider {
     this._addMouseUpHandler()
   }
 
-  fireEvent (eventType) {
-    const args = Object.values(arguments)
-    args.shift() // Remove the event type from args.
-    const self = this
-    this.listeners[eventType].forEach(function (listeners) {
-      listeners.call(self, args)
-    })
-  }
-
   calculatePosition (mouseX) {
     const box = this.barElement.getBoundingClientRect()
     return (mouseX - box.left) / box.width
@@ -125,14 +83,11 @@ export default class Slider {
   }
 
   constructor (settings) {
+    super(settings)
     this.settings = settings
-    this.hasMouseDown = false
-    this.mouseMoveTimeout = null
-
-    this.listeners = {
-      click: [],
-      change: []
-    }
     this._create()
   }
 }
+
+Slider.prototype.hasMouseDown = false
+Slider.prototype.mouseMoveTimeout = null
