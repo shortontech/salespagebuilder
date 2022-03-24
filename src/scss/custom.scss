@@ -140,3 +140,8 @@ $settings-panel-width: 400px;
     }
     @import 'editor/slider.scss';
 }
+.pb-slider-value
+{
+    height:200px;
+    display:block;
+}

@@ -1,23 +1,21 @@
-const path = require('path');
-const CopyPlugin = require("copy-webpack-plugin");
+const path = require('path')
+const CopyPlugin = require('copy-webpack-plugin')
+const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 
 module.exports = {
+  mode: 'production',
   entry: './src/js/index.js',
   output: {
     path: path.resolve(__dirname, 'dist'),
-    filename: 'index.bundle.js',
+    filename: 'index.bundle.js'
   },
   plugins: [
-    new CopyPlugin({
-      patterns: [
-        {
-          from: `${path.dirname(
-            require.resolve(`feather-icons/package.json`)
-          )}/dist/`,
-          to: "feather-sprite.svg",
-        },
-      ],
-    }),
+    new MiniCssExtractPlugin({
+      // Options similar to the same options in webpackOptions.output
+      // both options are optional
+      filename: '[name].css',
+      chunkFilename: '[id].css'
+    })
   ],
   module: {
     rules: [
@@ -25,14 +23,15 @@ module.exports = {
         test: /\.s[ac]ss$/i,
         use: [
           // Creates `style` nodes from JS strings
-          "style-loader",
+          process.env.NODE_ENV !== 'production'
+            ? 'style-loader'
+            : MiniCssExtractPlugin.loader,
           // Translates CSS into CommonJS
-          "css-loader",
+          'css-loader',
           // Compiles Sass to CSS
-          "sass-loader",
-        ],
-      },
-    ],
-  },
-};
-
+          'sass-loader'
+        ]
+      }
+    ]
+  }
+}

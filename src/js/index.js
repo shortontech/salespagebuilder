@@ -7,7 +7,7 @@ import element from './items/element.js'
 
 import feather from 'feather-icons'
 import dom from './helpers/dom.js'
-import { Sidebar } from './tools/sidebar'
+import Sidebar from './tools/sidebar'
 
 let mouseMoveHandle = null
 const pageBuilder = {

@@ -1,5 +1,7 @@
 import Slider from '../widgets/slider.js'
-export class Sidebar {
+import ColorPicker from '../widgets/color-picker.js'
+
+export default class Sidebar {
   getElement () {
     if (!this.element) {
       this._create()
@@ -28,6 +30,9 @@ export class Sidebar {
     switch (type) {
       case 'pixel':
         return value + 'px'
+      case 'color':
+        console.log('color not implemented.')
+        break
       default:
         throw Error('Unknown type ' + type)
     }
@@ -41,6 +46,9 @@ export class Sidebar {
       switch (config.type) {
         case 'pixel':
           widget = new Slider(config)
+          break
+        case 'color':
+          widget = new ColorPicker(config)
           break
         default:
           throw Error('Unknown type \'' + config.type + '\'')
@@ -117,6 +125,16 @@ export class Sidebar {
       path: 'paddingBottom',
       label: 'Bottom Padding',
       default: 10,
+      increment: 10,
+      min: 0,
+      max: 100
+    },
+    {
+      id: 'background-color',
+      type: 'color',
+      path: 'backgroundColor',
+      label: 'Background Color',
+      default: '#000000ff',
       increment: 10,
       min: 0,
       max: 100
