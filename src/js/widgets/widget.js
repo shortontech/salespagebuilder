@@ -48,5 +48,6 @@ export default class Widget {
 
 Widget.prototype.listenerTypes = [
   'click',
-  'change'
+  'change',
+  'attach'
 ]

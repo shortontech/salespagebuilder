@@ -1,11 +1,49 @@
 import Widget from '../widgets/widget.js'
+import color from '../helpers/color.js'
 export default class ColorPicker extends Widget {
   changeBtnPos () {
     const box = this.barElement.getBoundingClientRect()
-    const valBox = this.valueElement.getBoundingClientRect()
+    const valBox = this.canvas.getBoundingClientRect()
     const valueFraction = (this.value - this.settings.min) / (this.settings.max - this.settings.min)
     const newLeft = (valueFraction * box.width) - (valBox.width / 2)
-    this.valueElement.style.left = newLeft + 'px'
+    this.canvas.style.left = newLeft + 'px'
+  }
+
+  _addAttachEvent () {
+    const self = this
+    this.addEventListener('attach', function () {
+      self.resize()
+    })
+  }
+
+  resize () {
+    const rect = this.canvas.getBoundingClientRect()
+
+    this.canvas.setAttribute('width', rect.width)
+    this.canvas.setAttribute('height', rect.height)
+    this.generateColors(0)
+  }
+
+  generateColors (h) {
+    const width = this.canvas.width
+    const height = this.canvas.height
+    const imageData = this.context.createImageData(width, height)
+
+    const maxP = imageData.data.length / 4
+    for (let p = 0; p < maxP; p++) {
+      const x = p % width
+      const y = p / width
+      const s = 1 - (x / width)
+      const l = 1 - (y / height)
+
+      const vals = color.hslToRgba(h, s, l, 255)
+      const i = p * 4
+      imageData.data[i] = Math.floor(vals[0] * 256)
+      imageData.data[i + 1] = Math.floor(vals[1] * 256)
+      imageData.data[i + 2] = Math.floor(vals[2] * 256)
+      imageData.data[i + 3] = 255
+    }
+    this.context.putImageData(imageData, 0, 0)
   }
 
   _addMouseUpHandler () {
@@ -61,14 +99,15 @@ export default class ColorPicker extends Widget {
     this.canvasWrapper.classList.add('pb-color-wrapper')
     this.element.appendChild(this.canvasWrapper)
 
-    this.valueElement = document.createElement('canvas')
-    this.valueElement.classList.add('pb-slider-value')
-    this.valueElement.innerHTML = '&nbsp;'
-    this.canvasWrapper.appendChild(this.valueElement)
-
+    this.canvas = document.createElement('canvas')
+    this.canvas.classList.add('pb-color-canvas')
+    this.canvas.innerHTML = '&nbsp;'
+    this.canvasWrapper.appendChild(this.canvas)
+    this.context = this.canvas.getContext('2d')
     this._addMouseMoveHandler()
     this._addMouseDownHandler()
     this._addMouseUpHandler()
+    this._addAttachEvent()
   }
 
   calculatePosition (mouseX) {

@@ -4,8 +4,6 @@ import column from './items/column.js'
 import row from './items/row.js'
 import section from './items/section.js'
 import element from './items/element.js'
-
-import feather from 'feather-icons'
 import dom from './helpers/dom.js'
 import Sidebar from './tools/sidebar'
 
@@ -63,7 +61,7 @@ function mouseMoveCallback (e) {
         case 'pb-section':
           section = currentNode
           break
-        case 'pb-row':
+        case 'row':
           row = currentNode
           break
         case 'pb-column':
@@ -108,7 +106,6 @@ document.addEventListener('mousemove', function (e) {
 })
 
 window.pageBuilder = pageBuilder
-window.feather = feather
 
 window.addEventListener('load', function () {
   const itemTypes = ['section', 'row', 'column', 'element']
@@ -123,7 +120,7 @@ window.addEventListener('load', function () {
   })
 
   // DEBUG CODE: Show the sidebar
-  const rows = Object.values(document.getElementsByClassName('pb-row'))
+  const rows = Object.values(document.getElementsByClassName('row'))
   const rowIndex = Math.floor(Math.random() * rows.length)
   const selectedRow = rows[rowIndex]
   pageBuilder.row.editElement(selectedRow)

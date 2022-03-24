@@ -65,6 +65,7 @@ export default class Sidebar {
   addWidget (widget) {
     this.widgets.push(widget)
     this.widgetContainer.appendChild(widget.getElement())
+    widget.fireEvent('attach')
   }
 
   _create () {
