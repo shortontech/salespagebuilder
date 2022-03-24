@@ -31,8 +31,7 @@ export default class Sidebar {
       case 'pixel':
         return value + 'px'
       case 'color':
-        console.log('color not implemented.')
-        break
+        return value
       default:
         throw Error('Unknown type ' + type)
     }

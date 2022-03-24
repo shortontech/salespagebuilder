@@ -2,7 +2,7 @@ import Widget from '../widgets/widget.js'
 import color from '../helpers/color.js'
 export default class ColorPicker extends Widget {
   changeBtnPos () {
-    const box = this.barElement.getBoundingClientRect()
+    const box = this.canvas.getBoundingClientRect()
     const valBox = this.canvas.getBoundingClientRect()
     const valueFraction = (this.value - this.settings.min) / (this.settings.max - this.settings.min)
     const newLeft = (valueFraction * box.width) - (valBox.width / 2)
@@ -24,7 +24,7 @@ export default class ColorPicker extends Widget {
     this.generateColors(0)
   }
 
-  generateColors (h) {
+  generateColors () {
     const width = this.canvas.width
     const height = this.canvas.height
     const imageData = this.context.createImageData(width, height)
@@ -36,11 +36,11 @@ export default class ColorPicker extends Widget {
       const s = 1 - (x / width)
       const l = 1 - (y / height)
 
-      const vals = color.hslToRgba(h, s, l, 255)
+      const vals = color.hslToRgba(this.hue, s, l, 255)
       const i = p * 4
-      imageData.data[i] = Math.floor(vals[0] * 256)
-      imageData.data[i + 1] = Math.floor(vals[1] * 256)
-      imageData.data[i + 2] = Math.floor(vals[2] * 256)
+      imageData.data[i] = Math.floor(vals[0])
+      imageData.data[i + 1] = Math.floor(vals[1])
+      imageData.data[i + 2] = Math.floor(vals[2])
       imageData.data[i + 3] = 255
     }
     this.context.putImageData(imageData, 0, 0)
@@ -57,13 +57,21 @@ export default class ColorPicker extends Widget {
 
   _addMouseDownHandler () {
     const self = this
-    // self.barElement.addEventListener('mousedown', function (e) {
-    //   e.preventDefault()
-    //   const pos = self.calculatePosition(e.x)
-    //   self.changeValue(self.calculateNewValue(pos))
+    self.canvas.addEventListener('mousedown', function (e) {
+      e.preventDefault()
+      self.changeValue(self.getColor(e.x, e.y))
+      self.hasMouseDown = true
+    })
+  }
 
-    //   self.hasMouseDown = true
-    // })
+  getColor (x, y) {
+    const box = this.canvas.getBoundingClientRect()
+    let s = 1 - ((x - box.left) / box.width)
+    let l = 1 - ((y - box.top) / box.height)
+    s = Math.max(0, Math.min(s, 1))
+    l = Math.max(0, Math.min(l, 1))
+    const vals = color.hslToRgba(this.hue, s, l, 255)
+    return color.rgbaToHex.apply(null, vals)
   }
 
   _addMouseMoveHandler () {
@@ -77,8 +85,7 @@ export default class ColorPicker extends Widget {
       // Limit the number of times per second we can
       // the value to the refresh rate of the monitor
       if (!self.mouseMoveTimeout) {
-        const pos = self.calculatePosition(e.x)
-        self.changeValue(self.calculateNewValue(pos))
+        self.changeValue(self.getColor(e.x, e.y))
         self.mouseMoveTimeout = true
         window.requestAnimationFrame(function () {
           self.mouseMoveTimeout = false
@@ -110,11 +117,6 @@ export default class ColorPicker extends Widget {
     this._addAttachEvent()
   }
 
-  calculatePosition (mouseX) {
-    const box = this.barElement.getBoundingClientRect()
-    return (mouseX - box.left) / box.width
-  }
-
   calculateNewValue (percent) {
     const range = this.settings.max - this.settings.min
     const possibleValues = range / this.settings.increment
@@ -128,6 +130,7 @@ export default class ColorPicker extends Widget {
     super(settings)
     this.settings = settings
     this._create()
+    this.hue = 0
   }
 }
 
