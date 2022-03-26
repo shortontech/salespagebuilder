@@ -138,6 +138,16 @@ export default class Sidebar {
       increment: 10,
       min: 0,
       max: 100
+    },
+    {
+      id: 'color',
+      type: 'color',
+      path: 'color',
+      label: 'Font Color',
+      default: '#000000ff',
+      increment: 10,
+      min: 0,
+      max: 100
     }]
     return options
   }

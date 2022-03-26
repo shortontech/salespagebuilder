@@ -1,0 +1,1 @@
+You can click outside the editor, potentially removing the element being currently edited
