@@ -32,7 +32,7 @@ class Color {
       a = 255
     }
     let r = null
-    switch (Math.floor(h)) {
+    switch (Math.floor(Math.min(h, 5))) {
       case 0:
         r = [c + m, x + m, 0 + m]
         break
@@ -51,6 +51,8 @@ class Color {
       case 5:
         r = [c + m, 0 + m, x + m]
         break
+      default:
+        throw Error('invalid h' + h, Math.floor(h))
     }
     return [
       Math.floor(r[0] * 255),

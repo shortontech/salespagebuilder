@@ -21,7 +21,8 @@ export default class ColorPicker extends Widget {
 
     this.canvas.setAttribute('width', rect.width)
     this.canvas.setAttribute('height', rect.height)
-    this.generateColors(0)
+    this.generateColors()
+    this.generateHues()
   }
 
   generateColors () {
@@ -44,6 +45,26 @@ export default class ColorPicker extends Widget {
       imageData.data[i + 3] = 255
     }
     this.context.putImageData(imageData, 0, 0)
+  }
+
+  generateHues () {
+    const width = this.hueCanvas.width
+    const height = this.hueCanvas.height
+    const imageData = this.hueContext.createImageData(width, height)
+
+    const maxP = imageData.data.length / 4
+    for (let p = 0; p < maxP; p++) {
+      const y = p / width
+      const s = 1
+      const h = 1 - (y / height)
+      const vals = color.hslToRgba(h, s, 0.5, 255)
+      const i = p * 4
+      imageData.data[i] = Math.floor(vals[0])
+      imageData.data[i + 1] = Math.floor(vals[1])
+      imageData.data[i + 2] = Math.floor(vals[2])
+      imageData.data[i + 3] = 255
+    }
+    this.hueContext.putImageData(imageData, 0, 0)
   }
 
   _addMouseUpHandler () {
@@ -115,6 +136,7 @@ export default class ColorPicker extends Widget {
     this.canvasWrapper.appendChild(this.canvas)
     this.canvasWrapper.appendChild(this.hueCanvas)
     this.context = this.canvas.getContext('2d')
+    this.hueContext = this.hueCanvas.getContext('2d')
     this._addMouseMoveHandler()
     this._addMouseDownHandler()
     this._addMouseUpHandler()
