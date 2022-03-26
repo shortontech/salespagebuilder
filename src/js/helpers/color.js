@@ -15,7 +15,7 @@ class Color {
   }
 
   /**
-   * Converts values for hue, saturation, lightness, and alpha transparency into an Array of Numbers
+   * Converts RGB into an Array of Numbers
    * representing a color.
    * @param Number h The hue
    * @param Number s The saturation

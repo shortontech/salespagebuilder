@@ -9,13 +9,6 @@ export default class ColorPicker extends Widget {
     this.canvas.style.left = newLeft + 'px'
   }
 
-  _addAttachEvent () {
-    const self = this
-    this.addEventListener('attach', function () {
-      self.resize()
-    })
-  }
-
   resize () {
     const rect = this.canvas.getBoundingClientRect()
 
@@ -54,10 +47,8 @@ export default class ColorPicker extends Widget {
 
     const maxP = imageData.data.length / 4
     for (let p = 0; p < maxP; p++) {
-      const y = p / width
-      const s = 1
-      const h = 1 - (y / height)
-      const vals = color.hslToRgba(h, s, 0.5, 255)
+      const h = 1 - ((p / width) / height)
+      const vals = color.hslToRgba(h, 1, 0.5, 255)
       const i = p * 4
       imageData.data[i] = Math.floor(vals[0])
       imageData.data[i + 1] = Math.floor(vals[1])
@@ -65,6 +56,13 @@ export default class ColorPicker extends Widget {
       imageData.data[i + 3] = 255
     }
     this.hueContext.putImageData(imageData, 0, 0)
+  }
+
+  _addAttachEvent () {
+    const self = this
+    this.addEventListener('attach', function () {
+      self.resize()
+    })
   }
 
   _addMouseUpHandler () {
@@ -77,12 +75,33 @@ export default class ColorPicker extends Widget {
   }
 
   _addMouseDownHandler () {
+    // this.hueCanvas.addEventListener('')
     const self = this
-    self.canvas.addEventListener('mousedown', function (e) {
-      e.preventDefault()
-      self.changeValue(self.getColor(e.x, e.y))
-      self.hasMouseDown = true
+    // self.canvas.addEventListener('mousedown', function (e) {
+    //   e.preventDefault()
+    //   self.changeValue(self.getColor(e.x, e.y))
+    //   self.hasMouseDown = true
+    // })
+    self.element.addEventListener('mousedown', function (e) {
+      console.log(self.value)
+      self.mouseDownTarget = e.target
+      if (e.target === self.canvas) {
+        e.preventDefault()
+        self.changeValue(self.getColor(e.x, e.y))
+        self.hasMouseDown = true
+      } else if (e.target === self.hueCanvas) {
+        console.log(self.getHue(e.y))
+        // self.changeValue(self.getColor(e.x, e.y))
+        self.hasMouseDown = true
+      }
     })
+  }
+
+  getHue (y) {
+    const box = this.hueCanvas.getBoundingClientRect()
+    let h = 1 - ((y - box.top) / box.height)
+    h = Math.max(0, Math.min(h, 1))
+    return h
   }
 
   getColor (x, y) {
@@ -129,6 +148,7 @@ export default class ColorPicker extends Widget {
 
     this.hueCanvas = document.createElement('canvas')
     this.hueCanvas.classList.add('pb-hue-canvas')
+    this.hueContext = this.hueCanvas.getContext('2d')
 
     this.canvas = document.createElement('canvas')
     this.canvas.classList.add('pb-color-canvas')
@@ -136,7 +156,7 @@ export default class ColorPicker extends Widget {
     this.canvasWrapper.appendChild(this.canvas)
     this.canvasWrapper.appendChild(this.hueCanvas)
     this.context = this.canvas.getContext('2d')
-    this.hueContext = this.hueCanvas.getContext('2d')
+
     this._addMouseMoveHandler()
     this._addMouseDownHandler()
     this._addMouseUpHandler()
@@ -162,3 +182,4 @@ export default class ColorPicker extends Widget {
 
 ColorPicker.prototype.hasMouseDown = false
 ColorPicker.prototype.mouseMoveTimeout = null
+ColorPicker.prototype.mouseDownTarget = null
