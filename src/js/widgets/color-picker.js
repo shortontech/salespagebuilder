@@ -106,10 +106,14 @@ export default class ColorPicker extends Widget {
     this.canvasWrapper.classList.add('pb-color-wrapper')
     this.element.appendChild(this.canvasWrapper)
 
+    this.hueCanvas = document.createElement('canvas')
+    this.hueCanvas.classList.add('pb-hue-canvas')
+
     this.canvas = document.createElement('canvas')
     this.canvas.classList.add('pb-color-canvas')
     this.canvas.innerHTML = '&nbsp;'
     this.canvasWrapper.appendChild(this.canvas)
+    this.canvasWrapper.appendChild(this.hueCanvas)
     this.context = this.canvas.getContext('2d')
     this._addMouseMoveHandler()
     this._addMouseDownHandler()
