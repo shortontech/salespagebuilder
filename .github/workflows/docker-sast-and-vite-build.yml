@@ -26,7 +26,7 @@ jobs:
           docker run --rm \
             -v "${{ github.workspace }}:/app" \
             pb \
-            sh -c "cd /app && semgrep --config=p/ci ."
+            sh -c "cd /app && /root/.local/bin/semgrep --config=p/ci ."
 
       # 4) Install dependencies inside Docker (Node / NPM)
       - name: Install dependencies
