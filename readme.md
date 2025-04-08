@@ -34,3 +34,6 @@ A page builder built with the least amount of third party libraries in order to 
 * Checkout forms
 * Stripe support
 * Page saving / loading
+
+# Known issues
+* Changing elements doesn't update the hue of the color picker or the current settings for padding or margins
