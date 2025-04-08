@@ -1,6 +1,6 @@
 'use strict'
 // import { cloneItem, rgbaToHex } from './helpers.js'
-import dom from './helpers/dom.js'
+import dom from './helpers/Dom.js'
 import color from './helpers/color.js'
 
 export default class Item {

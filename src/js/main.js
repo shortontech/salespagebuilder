@@ -1,18 +1,15 @@
 'use strict'
 import '../scss/custom.scss'
-import column from './items/column.js'
-import row from './items/row.js'
-import section from './items/section.js'
-import element from './items/element.js'
-import dom from './helpers/dom.js'
-import Sidebar from './tools/sidebar.js'
+import { Row, Column, Element, Section } from './items'
+import Dom from './helpers/Dom.js'
+import Sidebar from './widgets/Sidebar.js'
 
 let mouseMoveHandle = null
 const pageBuilder = {
-  row: row,
-  column: column,
-  section: section,
-  element: element
+  row: Row,
+  column: Column,
+  section: Section,
+  element: Element
 }
 pageBuilder.getNarrowestActiveItem = () => {
   let items = ['element', 'row', 'section']
@@ -37,8 +34,8 @@ pageBuilder.updateEditorBoxes = () => {
     'pb-element-toolbar'
   ]
 
-  dom.removeClassNamesFromElements(classNamesToRemove)
-  dom.deleteElementsByClassNames(toolbarClassNames)
+  Dom.removeClassNamesFromElements(classNamesToRemove)
+  Dom.deleteElementsByClassNames(toolbarClassNames)
   pageBuilder[activeItem].moveToolbar()
   pageBuilder[activeItem].setSelected()
 }

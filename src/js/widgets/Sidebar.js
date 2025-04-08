@@ -1,5 +1,5 @@
-import Slider from '../widgets/slider.js'
-import ColorPicker from '../widgets/color-picker.js'
+import Slider from '../widgets/Slider.js'
+import ColorPicker from '../widgets/ColorPicker.js'
 
 export default class Sidebar {
   getElement () {

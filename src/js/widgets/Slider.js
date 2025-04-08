@@ -1,4 +1,4 @@
-import Widget from "../widgets/widget.js"
+import Widget from "./Widget.js"
 export default class Slider extends Widget {
   changeBtnPos () {
     const box = this.barElement.getBoundingClientRect()
