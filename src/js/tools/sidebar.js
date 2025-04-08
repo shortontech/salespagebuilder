@@ -21,7 +21,6 @@ export default class Sidebar {
   }
 
   changeStyle (widget, value) {
-    console.log('widget, name', widget.settings.id, value)
     const settings = widget.settings
     this.selectedElement.style[settings.path] = this.getFormattedValue(value, settings.type)
   }
@@ -40,7 +39,7 @@ export default class Sidebar {
   createWidgets () {
     const sidebar = this
     const configs = sidebar.getWidgetConfigs()
-    configs.forEach(function (config) {
+    configs.forEach((config) => {
       let widget = null
       switch (config.type) {
         case 'pixel':
@@ -53,7 +52,7 @@ export default class Sidebar {
           throw Error('Unknown type \'' + config.type + '\'')
       }
       if (widget != null) {
-        widget.addEventListener('change', function (value) {
+        widget.addEventListener('change', (value) => {
           sidebar.changeStyle(widget, value)
         })
         sidebar.addWidget(widget)
@@ -95,7 +94,7 @@ export default class Sidebar {
     const args = Object.keys(arguments)
     args.shift() // Remove the event type from args.
     const sidebar = this
-    this.listeners[eventType].forEach(function (listeners) {
+    this.listeners[eventType].forEach((listeners) => {
       listeners.call(sidebar, args)
     })
   }

@@ -8,7 +8,7 @@ const row = new Item()
 row.setItemType('row')
 row.setDefaultClassList(['pb-row', 'row'])
 
-row.setMakeToolbarFunc(function () {
+row.setMakeToolbarFunc(() => {
   return (new ElementCreator())
     .class('pb-row-toolbar')
     .children([

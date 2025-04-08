@@ -68,7 +68,7 @@ class Color {
    * @returns String The hex code for the color
    */
   rgbaToHex () {
-    return '#' + Object.values(arguments).map(function (arg) {
+    return '#' + Object.values(arguments).map((arg) => {
       if (Number.isNaN(arg)) {
         throw Error('Invalid number.')
       }

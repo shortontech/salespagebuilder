@@ -1,21 +1,21 @@
 const dom = {}
 
-dom.deleteElementsByClassNames = function (classNames) {
-  dom.getElementsByClassNames(classNames).forEach(function (ele) {
+dom.deleteElementsByClassNames = (classNames) => {
+  dom.getElementsByClassNames(classNames).forEach((ele) => {
     ele.parentNode.removeChild(ele)
   })
 }
 
-dom.removeClassNamesFromElements = function (classNames) {
-  dom.getElementsByClassNames(classNames).forEach(function (ele) {
-    classNames.forEach(function (className) {
+dom.removeClassNamesFromElements = (classNames) => {
+  dom.getElementsByClassNames(classNames).forEach((ele) => {
+    classNames.forEach((className) => {
       if (ele.classList.contains(className)) {
         ele.classList.remove(className)
       }
     })
   })
 }
-dom.getAllNodes = function (startNode) {
+dom.getAllNodes = (startNode) => {
   let nodes = [startNode]
   // These are nodes where all children have been added to nodes.
   const processedNodes = []
@@ -26,17 +26,17 @@ dom.getAllNodes = function (startNode) {
   do {
     // Reset the counter, so we can check if children are added.
     totalAdded = 0
-    const unprocessed = nodes.filter(function (child) {
+    const unprocessed = nodes.filter((child) => {
       return (processedNodes.indexOf(child) === -1)
     })
-    unprocessed.forEach(function (node) {
+    unprocessed.forEach((node) => {
       // Count the total number of nodes added,
       // so we know if the node we're looking at has been fully processed.
       let total = 0
 
       // Convert the collection to an array.
       let children = Object.values(node.children)
-      children = children.filter(function (child) {
+      children = children.filter((child) => {
         return (nodes.indexOf(child) === -1)
       })
 
@@ -55,13 +55,13 @@ dom.getAllNodes = function (startNode) {
   return nodes
 }
 // TODO (and forget to do): Instead of deleting IDs, regenerate them.
-dom.clone = function (node) {
+dom.clone = (node) => {
   const newNode = node.cloneNode(true)
   const childNodes = dom.getAllNodes(newNode)
-  childNodes.forEach(function (node) {
+  childNodes.forEach((node) => {
     let removeNode = false
     const classList = Object.values(node.classList)
-    classList.forEach(function (className) {
+    classList.forEach((className) => {
       if (className.match(/pb-[a-z]+-toolbar/) !== null) {
         removeNode = true
       }
@@ -77,22 +77,22 @@ dom.clone = function (node) {
   return newNode
 }
 
-dom.getElementsByClassNames = function (classNames) {
+dom.getElementsByClassNames = (classNames) => {
   const results = []
-  classNames.forEach(function (className) {
+  classNames.forEach((className) => {
     const elements = document.getElementsByClassName(className)
     if (elements.length) {
       const keys = Object.keys(elements)
-      keys.forEach(function (key) {
+      keys.forEach((key) => {
         results.push(elements[key])
       })
     }
   })
   return results
 }
-dom.removeClassNamesFromElements = function (classNames) {
-  dom.getElementsByClassNames(classNames).forEach(function (ele) {
-    classNames.forEach(function (className) {
+dom.removeClassNamesFromElements = (classNames) => {
+  dom.getElementsByClassNames(classNames).forEach((ele) => {
+    classNames.forEach((className) => {
       if (ele.classList.contains(className)) {
         ele.classList.remove(className)
       }

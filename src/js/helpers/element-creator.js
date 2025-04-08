@@ -5,9 +5,9 @@ export default class ElementCreator {
   }
 
   classes (classNames) {
-    classNames.forEach(function (className) {
+    classNames.forEach(((className) => {
       this.node.classList.add(className)
-    }.bind(this))
+    }).bind(this))
     return this
   }
 
@@ -18,9 +18,9 @@ export default class ElementCreator {
   }
 
   children (children) {
-    children.forEach(function (child) {
+    children.forEach(((child) => {
       this.node.appendChild(child)
-    }.bind(this))
+    }).bind(this))
     return this
   }
 

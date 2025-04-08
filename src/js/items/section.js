@@ -4,7 +4,7 @@ import { createIcon } from '../helpers.js'
 import ElementCreator from '../helpers/element-creator.js'
 
 const section = new Item(['container', 'pb-section'], 'pb-section-selected', 'section')
-section.setMakeToolbarFunc(function () {
+section.setMakeToolbarFunc(() => {
   return (new ElementCreator())
     .class('pb-section-toolbar')
     .children([

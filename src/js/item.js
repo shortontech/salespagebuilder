@@ -22,7 +22,7 @@ export default class Item {
     }
   }
 
-  editElement (ele) {
+  edit (ele) {
     if (!ele) {
       throw Error('Element is invalid')
     }
@@ -37,7 +37,6 @@ export default class Item {
   }
 
   clone () {
-    console.log('clone called.')
     this.activeNode.parentNode.insertBefore(dom.clone(this.activeNode), this.activeNode)
     this.fireEvent('clone', this.activeNode)
     return this
@@ -62,7 +61,7 @@ export default class Item {
     const args = Object.values(arguments)
     args.shift() // Remove the event type from args.
     const self = this
-    this.listeners[eventType].forEach(function (listeners) {
+    this.listeners[eventType].forEach((listeners) => {
       listeners.call(self, args)
     })
   }
@@ -139,11 +138,11 @@ export default class Item {
       return this
     }
 
-    classList.forEach(function (className) {
+    classList.forEach(((className) => {
       if (this.activeNode.classList.contains(className)) {
         this.activeNode.classList.remove(className)
       }
-    }.bind(this))
+    }).bind(this))
   }
 
   addClasses (classList) {
@@ -151,11 +150,11 @@ export default class Item {
       return this
     }
 
-    classList.forEach(function (className) {
+    classList.forEach(((className) => {
       if (!this.activeNode.classList.contains(className)) {
         this.activeNode.classList.add(className)
       }
-    }.bind(this))
+    }).bind(this))
   }
 
   make () {
@@ -183,7 +182,7 @@ export default class Item {
       const end = val.indexOf(')')
 
       const arr = val.slice(start + 1, end).split(',')
-        .map(function (str) {
+        .map((str) => {
           return Number.parseInt(str.trim())
         })
 

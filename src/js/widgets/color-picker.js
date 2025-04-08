@@ -1,14 +1,10 @@
 import Widget from '../widgets/widget.js'
 import color from '../helpers/color.js'
 export default class ColorPicker extends Widget {
-  changeBtnPos () {
-    const box = this.canvas.getBoundingClientRect()
-    const valBox = this.canvas.getBoundingClientRect()
-    const valueFraction = (this.value - this.settings.min) / (this.settings.max - this.settings.min)
-    const newLeft = (valueFraction * box.width) - (valBox.width / 2)
-    this.canvas.style.left = newLeft + 'px'
-  }
 
+  /**
+   * Draws the canvases on the first frame of animation once the page is loaded.
+   */
   resize () {
     const rect = this.canvas.getBoundingClientRect()
 
@@ -18,17 +14,21 @@ export default class ColorPicker extends Widget {
     this.generateHues()
   }
 
+  /**
+   * 
+   */
   generateColors () {
-    const width = this.canvas.width
-    const height = this.canvas.height
-    const imageData = this.context.createImageData(width, height)
+    const rect = this.canvas.getBoundingClientRect()
 
+    const [w, h] = [rect.width, rect.height]
+    const imageData = this.context.createImageData(w, h)
+    
     const maxP = imageData.data.length / 4
     for (let p = 0; p < maxP; p++) {
-      const x = p % width
-      const y = p / width
-      const s = 1 - (x / width)
-      const l = 1 - (y / height)
+      const x = p % w
+      const y = p / w
+      const s = 1 - (x / w)
+      const l = 1 - (y / h)
 
       const vals = color.hslToRgba(this.hue, s, l, 255)
       const i = p * 4
@@ -40,6 +40,9 @@ export default class ColorPicker extends Widget {
     this.context.putImageData(imageData, 0, 0)
   }
 
+  /**
+   * 
+   */
   generateHues () {
     const width = this.hueCanvas.width
     const height = this.hueCanvas.height
@@ -58,45 +61,58 @@ export default class ColorPicker extends Widget {
     this.hueContext.putImageData(imageData, 0, 0)
   }
 
+  /**
+   * 
+   */
   _addAttachEvent () {
-    const self = this
-    this.addEventListener('attach', function () {
-      self.resize()
+    this.addEventListener('attach', () => {
+      this.resize()
     })
   }
 
+  /**
+   * Adds a mouse up handler to the document, so we know when the mouse is released.
+   */
   _addMouseUpHandler () {
-    const self = this
-    const listenerFunc = function (e) {
-      self.hasMouseDown = false
+    const listenerFunc = (e) => {
+      this.hasMouseDown = false
     }
     document.addEventListener('mouseup', listenerFunc)
     document.addEventListener('blur', listenerFunc)
   }
-
+  /**
+   * Adds a blur handler to the document, so that we treat the mouse as released
+   */
+  _addMouseUpHandler () {
+    const listenerFunc = (e) => {
+      this.hasMouseDown = false
+    }
+    document.addEventListener('mouseup', listenerFunc)
+    document.addEventListener('blur', listenerFunc)
+  }
+  /**
+   * 
+   */
   _addMouseDownHandler () {
     // this.hueCanvas.addEventListener('')
-    const self = this
-    // self.canvas.addEventListener('mousedown', function (e) {
-    //   e.preventDefault()
-    //   self.changeValue(self.getColor(e.x, e.y))
-    //   self.hasMouseDown = true
-    // })
-    self.element.addEventListener('mousedown', function (e) {
-      console.log(self.value)
-      self.mouseDownTarget = e.target
-      if (e.target === self.canvas) {
+
+    this.element.addEventListener('mousedown', (e) => {
+      this.mouseDownTarget = e.target
+      if (e.target === this.canvas) {
         e.preventDefault()
-        self.changeValue(self.getColor(e.x, e.y))
-        self.hasMouseDown = true
-      } else if (e.target === self.hueCanvas) {
-        console.log(self.getHue(e.y))
-        // self.changeValue(self.getColor(e.x, e.y))
-        self.hasMouseDown = true
+        this.changeValue(this.getColor(e.x, e.y))
+        this.hasMouseDown = true
+      } else if (e.target === this.hueCanvas) {
+        this.hue = this.getHue(e.y)
+        this.generateColors()
+        this.hasMouseDown = true
       }
     })
   }
 
+  /**
+   * 
+   */
   getHue (y) {
     const box = this.hueCanvas.getBoundingClientRect()
     let h = 1 - ((y - box.top) / box.height)
@@ -104,6 +120,9 @@ export default class ColorPicker extends Widget {
     return h
   }
 
+  /**
+   * 
+   */
   getColor (x, y) {
     const box = this.canvas.getBoundingClientRect()
     let s = 1 - ((x - box.left) / box.width)
@@ -114,26 +133,40 @@ export default class ColorPicker extends Widget {
     return color.rgbaToHex.apply(null, vals)
   }
 
+  /**
+   * 
+   */
   _addMouseMoveHandler () {
-    const self = this
-    document.addEventListener('mousemove', function (e) {
+    document.addEventListener('mousemove', (e)=> {
       // Make sure the mouse is down.
-      if (!self.hasMouseDown) {
+      if (!this.hasMouseDown) {
         return
       }
 
       // Limit the number of times per second we can
       // the value to the refresh rate of the monitor
-      if (!self.mouseMoveTimeout) {
-        self.changeValue(self.getColor(e.x, e.y))
-        self.mouseMoveTimeout = true
-        window.requestAnimationFrame(function () {
-          self.mouseMoveTimeout = false
+      if (!this.mouseMoveTimeout) {
+        // this.canvas represents the saturation and brightness selection canvas
+        // Should probably rename
+        if (this.mouseDownTarget == this.canvas) {
+          this.changeValue(this.getColor(e.x, e.y))
+        } else if (this.mouseDownTarget) {
+          // Update the hue
+          this.hue = this.getHue(e.y)
+          this.generateColors()
+        }
+        // Ensure that this function is not called until the page has been redrawn
+        this.mouseMoveTimeout = true
+        window.requestAnimationFrame(() => {
+          this.mouseMoveTimeout = false
         })
       }
     })
   }
 
+  /**
+   * 
+   */
   _create () {
     this.element = document.createElement('div')
     this.element.classList.add('pb-color')
@@ -163,6 +196,9 @@ export default class ColorPicker extends Widget {
     this._addAttachEvent()
   }
 
+  /**
+   * 
+   */
   calculateNewValue (percent) {
     const range = this.settings.max - this.settings.min
     const possibleValues = range / this.settings.increment
@@ -177,6 +213,7 @@ export default class ColorPicker extends Widget {
     this.settings = settings
     this._create()
     this.hue = 0
+    this.generateColors = this.generateColors.bind(this)
   }
 }
 

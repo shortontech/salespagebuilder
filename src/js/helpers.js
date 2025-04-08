@@ -3,12 +3,12 @@ export function createIcon (iconClassStr, classStr, clickEvt) {
   const btn = document.createElement('div')
   btn.addEventListener('click', clickEvt)
   const classNames = classStr.split(' ')
-  classNames.forEach(function (className) {
+  classNames.forEach((className) => {
     btn.classList.add(className)
   })
   const icon = document.createElement('i')
   const iconClassNames = iconClassStr.split(' ')
-  iconClassNames.forEach(function (className) {
+  iconClassNames.forEach((className) => {
     icon.classList.add(className)
   })
   btn.appendChild(icon)

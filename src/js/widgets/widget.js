@@ -13,7 +13,6 @@ export default class Widget {
    */
   setValue (val) {
     this.value = val
-    this.changeBtnPos()
   }
 
   getValue () {
@@ -27,9 +26,8 @@ export default class Widget {
   fireEvent (eventType) {
     const args = Object.values(arguments)
     args.shift() // Remove the event type from args.
-    const self = this
-    this.listeners[eventType].forEach(function (listeners) {
-      listeners.call(self, args)
+    this.listeners[eventType].forEach((listeners) => {
+      listeners.call(this, args)
     })
   }
 
@@ -38,11 +36,16 @@ export default class Widget {
   }
 
   constructor () {
-    const self = this
     this.listeners = []
-    this.listenerTypes.forEach(function (listenerType) {
-      self.listeners[listenerType] = []
+    this.listenerTypes.forEach((listenerType) => {
+      this.listeners[listenerType] = []
     })
+    this.setValue = this.setValue.bind(this)
+    this.addEventListener = this.addEventListener.bind(this)
+    this.fireEvent = this.fireEvent.bind(this)
+    this.getValue = this.getValue.bind(this)
+    this.setValue = this.setValue.bind(this)
+    this.getElement = this.getElement.bind(this)
   }
 }
 

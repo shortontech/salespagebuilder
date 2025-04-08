@@ -5,7 +5,7 @@ import row from './items/row.js'
 import section from './items/section.js'
 import element from './items/element.js'
 import dom from './helpers/dom.js'
-import Sidebar from './tools/sidebar'
+import Sidebar from './tools/sidebar.js'
 
 let mouseMoveHandle = null
 const pageBuilder = {
@@ -14,17 +14,17 @@ const pageBuilder = {
   section: section,
   element: element
 }
-pageBuilder.getNarrowestActiveItem = function () {
+pageBuilder.getNarrowestActiveItem = () => {
   let items = ['element', 'row', 'section']
 
-  items = items.filter(function (item) {
+  items = items.filter((item) => {
     return (pageBuilder[item].activeNode != null)
   })
 
   return items.shift()
 }
 
-pageBuilder.updateEditorBoxes = function () {
+pageBuilder.updateEditorBoxes = () => {
   const activeItem = pageBuilder.getNarrowestActiveItem()
   const classNamesToRemove = [
     'pb-element-selected',
@@ -43,7 +43,7 @@ pageBuilder.updateEditorBoxes = function () {
   pageBuilder[activeItem].setSelected()
 }
 // Wait for the last event to fire.
-function mouseMoveCallback (e) {
+let mouseMoveCallback = (e) => {
   // Reset the time until the mouse move event can be called.
   mouseMoveHandle = null
   let section = null
@@ -54,8 +54,7 @@ function mouseMoveCallback (e) {
 
   // Progress through the parent nodes.
   do {
-    const keys = Object.keys(currentNode.classList)
-    keys.forEach(function (key) {
+    Object.keys(currentNode.classList).forEach((key) =>{
       const val = currentNode.classList[key]
       switch (val) {
         case 'pb-section':
@@ -82,12 +81,9 @@ function mouseMoveCallback (e) {
     return
   }
   let needsUpdate = false
-  const success = function () {
-    needsUpdate = true
-  }
+  const success = () => { needsUpdate = true }
 
   // Change the nodes, and if successful, let us know.
-  // console.log({section, row, col, ele})
   pageBuilder.section.changeNode(section, success)
   pageBuilder.row.changeNode(row, success)
   pageBuilder.column.changeNode(col, success)
@@ -96,23 +92,23 @@ function mouseMoveCallback (e) {
     pageBuilder.updateEditorBoxes()
   }
 }
-document.addEventListener('mousemove', function (e) {
+document.addEventListener('mousemove', (e) => {
   if (mouseMoveHandle !== null) {
     return
   }
-  mouseMoveHandle = setTimeout(function () {
+  mouseMoveHandle = setTimeout(() => {
     mouseMoveCallback(e)
   }, 100)
 })
 
 window.pageBuilder = pageBuilder
 
-window.addEventListener('load', function () {
+window.addEventListener('load', () => {
   const itemTypes = ['section', 'row', 'column', 'element']
   const editorArr = Object.values(document.getElementsByClassName('pb-editor'))
   const editorEle = editorArr.pop()
 
-  itemTypes.forEach(function (itemType) {
+  itemTypes.forEach((itemType) => {
     const sidebar = new Sidebar()
     sidebar.setItemType(itemType)
     pageBuilder[itemType].setSidebar(sidebar)
@@ -123,7 +119,7 @@ window.addEventListener('load', function () {
   const rows = Object.values(document.getElementsByClassName('row'))
   const rowIndex = Math.floor(Math.random() * rows.length)
   const selectedRow = rows[rowIndex]
-  pageBuilder.row.editElement(selectedRow)
+  pageBuilder.row.edit(selectedRow)
   pageBuilder.row.readStyle()
   // Test code.
 })

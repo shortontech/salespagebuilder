@@ -9,41 +9,38 @@ export default class Slider extends Widget {
   }
 
   _addMouseUpHandler () {
-    const self = this
-    const listenerFunc = function (e) {
-      self.hasMouseDown = false
+    const listenerFunc = (e) => {
+      this.hasMouseDown = false
     }
     document.addEventListener('mouseup', listenerFunc)
     document.addEventListener('blur', listenerFunc)
   }
 
   _addMouseDownHandler () {
-    const self = this
-    self.barElement.addEventListener('mousedown', function (e) {
+    this.barElement.addEventListener('mousedown', (e) => {
       e.preventDefault()
-      const pos = self.calculatePosition(e.x)
-      self.changeValue(self.calculateNewValue(pos))
+      const pos = this.calculatePosition(e.x)
+      this.changeValue(this.calculateNewValue(pos))
 
-      self.hasMouseDown = true
+      this.hasMouseDown = true
     })
   }
 
   _addMouseMoveHandler () {
-    const self = this
-    document.addEventListener('mousemove', function (e) {
+    document.addEventListener('mousemove', (e) => {
       // Make sure the mouse is down.
-      if (!self.hasMouseDown) {
+      if (!this.hasMouseDown) {
         return
       }
 
       // Limit the number of times per second we can
       // the value to the refresh rate of the monitor
-      if (!self.mouseMoveTimeout) {
-        const pos = self.calculatePosition(e.x)
-        self.changeValue(self.calculateNewValue(pos))
-        self.mouseMoveTimeout = true
-        window.requestAnimationFrame(function () {
-          self.mouseMoveTimeout = false
+      if (!this.mouseMoveTimeout) {
+        const pos = this.calculatePosition(e.x)
+        this.changeValue(this.calculateNewValue(pos))
+        this.mouseMoveTimeout = true
+        window.requestAnimationFrame(() => {
+          this.mouseMoveTimeout = false
         })
       }
     })

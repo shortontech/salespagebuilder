@@ -16,10 +16,10 @@ $grid-breakpoints: (
 #89FC00
 */
 
-$fa-font-path: '~@fortawesome/fontawesome-free/webfonts'; 
-@import '~@fortawesome/fontawesome-free/scss/fontawesome';
-@import '~@fortawesome/fontawesome-free/scss/solid';
-@import '~@fortawesome/fontawesome-free/scss/regular';
+$fa-font-path: '@fortawesome/fontawesome-free/webfonts'; 
+@import '@fortawesome/fontawesome-free/scss/fontawesome';
+@import '@fortawesome/fontawesome-free/scss/solid';
+@import '@fortawesome/fontawesome-free/scss/regular';
 
 @import "../../node_modules/bootstrap/scss/bootstrap";
 
