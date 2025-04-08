@@ -1,0 +1,45 @@
+name: SAST and Vite Build
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build-and-scan:
+    runs-on: ubuntu-latest
+    steps:
+      # 1) Check out the repository
+      - name: Check out repo
+        uses: shortontech/pb
+
+      # 2) Build the Docker image
+      - name: Build Docker image
+        run: |
+          docker build -t pb .
+
+      # 3) Run SAST scan within Docker
+      # This example uses Semgrep's recommended config set "p/ci".
+      - name: SAST scan (Semgrep)
+        run: |
+          docker run --rm \
+            -v "${{ github.workspace }}:/app" \
+            pb \
+            sh -c "cd /app && semgrep --config=p/ci ."
+
+      # 4) Install dependencies inside Docker (Node / NPM)
+      - name: Install dependencies
+        run: |
+          docker run --rm \
+            -v "${{ github.workspace }}:/app" \
+            pb \
+            sh -c "cd /app && npm ci"
+
+      # 5) Run Vite build to ensure everything builds
+      - name: Run Vite build
+        run: |
+          docker run --rm \
+            -v "${{ github.workspace }}:/app" \
+            pb \
+            sh -c "cd /app && npm run build"
