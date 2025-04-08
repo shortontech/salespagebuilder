@@ -27,7 +27,7 @@ export default class Item {
       throw Error('Element is invalid')
     }
     this.selectedElement = ele
-    this.sidebar.editElement(this.selectedElement)
+    this.sidebar.selectElement(this.selectedElement)
   }
 
   setSelected () {

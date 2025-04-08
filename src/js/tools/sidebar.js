@@ -82,8 +82,29 @@ export default class Sidebar {
     // Hide the sidebar.
     this.element.style.display = 'none'
   }
+  /**
+   * 
+   * @param {PointerEvent} evt 
+   */
+  selectElement (evt) {
+    let ele = null
 
-  editElement (ele) {
+    if (evt instanceof PointerEvent) {
+        ele = evt.target.parentElement
+    } else {
+      ele = evt
+    }
+
+    if (ele.tagName != 'DIV') {
+      ele = ele.parentElement
+    }
+    if (ele.classList.contains("pb-element-button")) {
+      ele = ele.parentElement
+    }
+    if (ele.classList.contains("pb-element-toolbar")) {
+      ele = ele.parentElement
+    }
+    console.log(ele)
     this.selectedElement = ele
     this.show()
     this.fireEvent('change', ele)
@@ -168,5 +189,8 @@ export default class Sidebar {
       editStart: [],
       editEnd: []
     }
+    this.addWidget = this.addWidget.bind(this)
+    this.setItemType = this.setItemType.bind(this)
+    this.selectElement = this.selectElement.bind(this)
   }
 }
