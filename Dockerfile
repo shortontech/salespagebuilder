@@ -2,10 +2,10 @@
 FROM node:23-alpine
 
 # Install Python and pip so we can install and run Semgrep for SAST
-RUN apk add --no-cache python3 py3-pip
+RUN apk add --no-cache python3 py3-pip pipx
 
 # Install Semgrep
-RUN pip3 install --no-cache-dir semgrep
+RUN pipx install semgrep
 
 # Set the working directory
 WORKDIR /app
