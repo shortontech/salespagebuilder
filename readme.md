@@ -40,3 +40,4 @@ A page builder built with the least amount of third party libraries in order to 
 # Known issues
 * Changing elements doesn't update the hue of the color picker or the current settings for padding or margins
 * Changing elements doesn't update the text box value.
+* You can click outside the editor, potentially removing the element being currently edited (I forgot what I meant by this!)
