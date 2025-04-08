@@ -12,7 +12,7 @@ jobs:
     steps:
       # 1) Check out the repository
       - name: Check out repo
-        uses: shortontech/pb
+        uses: actions/checkout@v3
 
       # 2) Build the Docker image
       - name: Build Docker image
