@@ -104,7 +104,7 @@ export default class Sidebar {
     if (ele.classList.contains("pb-element-toolbar")) {
       ele = ele.parentElement
     }
-    console.log(ele)
+
     this.selectedElement = ele
     this.show()
     this.fireEvent('change', ele)

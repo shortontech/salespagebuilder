@@ -2,7 +2,7 @@ export default class Widget {
   changeValue (val) {
     if (this.value !== val) {
       // Set the value and change the button position.
-      this.setValue(this.value = val)
+      this.setValue(val)
       this.fireEvent('change', val)
     }
   }

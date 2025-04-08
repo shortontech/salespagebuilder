@@ -18,7 +18,6 @@ A page builder built with the least amount of third party libraries in order to 
 * Background images
 * Add element button
 * Element type selection dialog
-* Image elements
 * Button elements
 * Opacity selection
 
@@ -29,6 +28,9 @@ A page builder built with the least amount of third party libraries in order to 
 * Editable CSS classes
 * Custom CSS sections
 * Custom JS (For pixels and advanced customization)
+* Image elements
+* Image uploading
+* Background image settings
 * Mobile responsiveness
 * Forms
 * Checkout forms
@@ -37,3 +39,4 @@ A page builder built with the least amount of third party libraries in order to 
 
 # Known issues
 * Changing elements doesn't update the hue of the color picker or the current settings for padding or margins
+* Changing elements doesn't update the text box value.
