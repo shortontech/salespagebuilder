@@ -1,5 +1,5 @@
 import Widget from './Widget.js'
-import color from '../helpers/color.js'
+import color from '../helpers/Color.js'
 export default class ColorPicker extends Widget {
 
   /**

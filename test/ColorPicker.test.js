@@ -1,5 +1,5 @@
 import ColorPicker from '../src/js/widgets/ColorPicker.js'
-import color from '../src/js/helpers/color.js'
+import color from '../src/js/helpers/Color.js'
 import {jest} from '@jest/globals';
 
 global.HTMLCanvasElement.prototype.getContext = () => ({
@@ -32,12 +32,12 @@ describe('ColorPicker', () => {
 
   // Test not yet working, need to refactor
 
-  // test('getColor returns correct hex value', () => {
-  //   const result = picker.getColor(100, 100) // x=100, y=100 inside a 200x200 canvas
-  //   expect(color.hslToRgba).toHaveBeenCalledWith(0.5, 0.5, 0.5, 255)
-  //   expect(color.rgbaToHex).toHaveBeenCalled()
-  //   expect(result).toMatch(/^#[a-f0-9]{8}$/i) // something like #deadbeef
-  // })
+  test('getColor returns correct hex value', () => {
+    const result = picker.getColor(100, 100) // x=100, y=100 inside a 200x200 canvas
+    expect(color.hslToRgba).toHaveBeenCalledWith(0.5, 0.5, 0.5, 255)
+    expect(color.rgbaToHex).toHaveBeenCalled()
+    expect(result).toMatch(/^#[a-f0-9]{8}$/i) // something like #deadbeef
+  })
 
   test('getHue returns clamped value between 0 and 1', () => {
     const y = 25

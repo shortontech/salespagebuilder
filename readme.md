@@ -41,3 +41,10 @@ A page builder built with the least amount of third party libraries in order to 
 * Changing elements doesn't update the hue of the color picker or the current settings for padding or margins
 * Changing elements doesn't update the text box value.
 * You can click outside the editor, potentially removing the element being currently edited (I forgot what I meant by this!)
+
+# Similar page builders
+There are a number of usable solutions, but none of them have the features needed for sales pages. Use them *if you don't need sales pages.*
+* [GrapeJS](https://grapesjs.com/)
+* [PageCarton](https://www.pagecarton.org/)
+* [EditorJS](https://editorjs.io/)
+* [craft.js](https://github.com/prevwong/craft.js/)

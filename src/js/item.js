@@ -1,7 +1,7 @@
 'use strict'
 // import { cloneItem, rgbaToHex } from './helpers.js'
 import dom from './helpers/Dom.js'
-import color from './helpers/color.js'
+import color from './helpers/Color.js'
 
 export default class Item {
   changeNode (node, callback) {
