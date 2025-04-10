@@ -1,15 +1,17 @@
-import Slider from '../widgets/Slider.js'
-import ColorPicker from '../widgets/ColorPicker.js'
+import Slider from './Slider.js'
+import ColorPicker from './ColorPicker.js'
 import { UnexpectedError } from '../helpers/Errors.js'
 
-export default class Sidebar {
+export default class EditSidebar {
   getElement () {
     if (!this.element) {
       this._create()
     }
     return this.element
   }
-
+  /**
+   * Hides the sidebar.
+   */
   hide () {
     this.element.style.display = 'none'
   }

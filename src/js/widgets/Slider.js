@@ -8,6 +8,9 @@ export default class Slider extends Widget {
     this.valueElement.style.left = newLeft + "px"
   }
 
+  /**
+   * Add a mouse up handler to the document.
+   */
   _addMouseUpHandler () {
     const listenerFunc = (e) => {
       this.hasMouseDown = false
@@ -15,7 +18,9 @@ export default class Slider extends Widget {
     document.addEventListener("mouseup", listenerFunc)
     document.addEventListener("blur", listenerFunc)
   }
-
+  /**
+   * Add a mouse down handler to the slider.
+   */
   _addMouseDownHandler () {
     this.barElement.addEventListener("mousedown", (e) => {
       e.preventDefault()
@@ -25,6 +30,12 @@ export default class Slider extends Widget {
       this.hasMouseDown = true
     })
   }
+
+  /**
+   * Change the value of the slider.
+   * @param {Number} val 
+   * @param {boolean} textChanged 
+   */
   changeValue (val, textChanged) {
     if (this.value !== val) {
       // Set the value and change the button position.
@@ -42,6 +53,9 @@ export default class Slider extends Widget {
     }
   }
 
+  /**
+   * Add a mouse move handler to the document.
+   */
   _addMouseMoveHandler () {
     document.addEventListener("mousemove", (e) => {
       // Make sure the mouse is down.
@@ -64,19 +78,30 @@ export default class Slider extends Widget {
     })
   }
 
+  /**
+   * Create the slider element.
+   */
   _create () {
+    // Create the element
     this.element = document.createElement("DIV")
     this.element.classList.add("pb-slider")
+
+    // Add the label element
     this.labelElement = document.createElement("LABEL")
     this.labelElement.innerText = this.settings.label
     this.element.appendChild(this.labelElement)
+
+    // Add the bar element
     this.barElement = document.createElement("DIV")
     this.barElement.classList.add("pb-slider-bar")
     this.element.appendChild(this.barElement)
+
+    // Add the value element
     this.valueElement = document.createElement("DIV")
     this.valueElement.classList.add("pb-slider-value")
     this.valueElement.innerHTML = "&nbsp;"
     this.barElement.appendChild(this.valueElement)
+
     // Add the text box
     this.textBox = document.createElement("INPUT")
     this.element.appendChild(this.textBox)
@@ -85,6 +110,11 @@ export default class Slider extends Widget {
     this._addMouseUpHandler()
     this._addInputChangeHandler()
   }
+
+  /**
+   * When the text box changes, update the value of the slider.
+   * @param {String} val 
+   */
   onTextChange(val) {
     // Validate the text
     if (isNaN(val)) {
@@ -98,6 +128,10 @@ export default class Slider extends Widget {
       }
     }
   }
+
+  /**
+   * Add a change handler to the text box.
+   */
   _addInputChangeHandler () {
     this._textChangeEventHandled = false
     this.textBox.addEventListener('keyup', (evt)=> {
@@ -111,11 +145,20 @@ export default class Slider extends Widget {
     })
   }
 
+  /**
+   * 
+   * @param {Number} mouseX 
+   * @returns 
+   */
   calculatePosition (mouseX) {
     const box = this.barElement.getBoundingClientRect()
     return (mouseX - box.left) / box.width
   }
-
+  /**
+   * Calculate the new value based on the percent.
+   * @param {Number} percent
+   * @returns {Number}
+   */
   calculateNewValue (percent) {
     const range = this.settings.max - this.settings.min
     const possibleValues = range / this.settings.increment

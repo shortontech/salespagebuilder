@@ -2,7 +2,7 @@
 import '../scss/custom.scss'
 import { Row, Column, Element, Section } from './items'
 import Dom from './helpers/Dom.js'
-import Sidebar from './widgets/Sidebar.js'
+import EditSidebar from './widgets/EditSidebar.js'
 
 let mouseMoveHandle = null
 const pageBuilder = {
@@ -106,7 +106,7 @@ window.addEventListener('load', () => {
   const editorEle = editorArr.pop()
 
   itemTypes.forEach((itemType) => {
-    const sidebar = new Sidebar()
+    const sidebar = new EditSidebar()
     sidebar.setItemType(itemType)
     pageBuilder[itemType].setSidebar(sidebar)
     editorEle.appendChild(sidebar.getElement())

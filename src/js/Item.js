@@ -2,7 +2,7 @@
 // import { cloneItem, rgbaToHex } from './helpers.js'
 import dom from './helpers/Dom.js'
 import color from './helpers/Color.js'
-import Sidebar from './widgets/Sidebar.js'
+import EditSidebar from './widgets/EditSidebar.js'
 import {InvalidElementError} from './helpers/Errors.js'
 import { UnexpectedError } from './helpers/Errors.js'
 export default class Item {
@@ -35,7 +35,7 @@ export default class Item {
 
 
     this.selectedElement = ele
-    if (!this.sidebar instanceof Sidebar) {
+    if (!this.sidebar instanceof EditSidebar) {
       throw Error('Sidebar is invalid')
     }
     this.sidebar.selectElement(this.selectedElement)
