@@ -1,5 +1,5 @@
 'use strict'
-import Item from '../item.js'
+import Item from '../Item.js'
 
 const column = new Item()
 column.setItemType('column')

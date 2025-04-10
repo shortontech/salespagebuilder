@@ -2,7 +2,9 @@
 // import { cloneItem, rgbaToHex } from './helpers.js'
 import dom from './helpers/Dom.js'
 import color from './helpers/Color.js'
-
+import Sidebar from './widgets/Sidebar.js'
+import {InvalidElementError} from './helpers/Errors.js'
+import { UnexpectedError } from './helpers/Errors.js'
 export default class Item {
   changeNode (node, callback) {
     if (this.activeNode === node) {
@@ -26,7 +28,16 @@ export default class Item {
     if (!ele) {
       throw Error('Element is invalid')
     }
+    if (ele instanceof Event) {
+      throw new UnexpectedError("Element is not a valid HTMLElement")
+    }
+    console.log(ele)
+
+
     this.selectedElement = ele
+    if (!this.sidebar instanceof Sidebar) {
+      throw Error('Sidebar is invalid')
+    }
     this.sidebar.selectElement(this.selectedElement)
   }
 

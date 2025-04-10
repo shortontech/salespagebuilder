@@ -1,7 +1,7 @@
 'use strict'
-import Item from '../item.js'
-import ElementCreator from '../helpers/element-creator.js'
-import { createIcon } from '../helpers.js'
+import Item from '../Item.js'
+import {ElementCreator, createIcon} from '../helpers'
+
 const element = new Item(['pb-element'], 'pb-element-selected', 'element')
 
 // (defaultClassList, selectedClass, itemType)

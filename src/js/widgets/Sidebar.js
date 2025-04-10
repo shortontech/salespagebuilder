@@ -1,5 +1,6 @@
 import Slider from '../widgets/Slider.js'
 import ColorPicker from '../widgets/ColorPicker.js'
+import { UnexpectedError } from '../helpers/Errors.js'
 
 export default class Sidebar {
   getElement () {
@@ -19,7 +20,11 @@ export default class Sidebar {
       this.createWidgets()
     }
   }
-
+  /**
+   * 
+   * @param {Item} widget 
+   * @param {String} value 
+   */
   changeStyle (widget, value) {
     const settings = widget.settings
     this.selectedElement.style[settings.path] = this.getFormattedValue(value, settings.type)
@@ -35,7 +40,9 @@ export default class Sidebar {
         throw Error('Unknown type ' + type)
     }
   }
-
+  /**
+   * 
+   */
   createWidgets () {
     const sidebar = this
     const configs = sidebar.getWidgetConfigs()
@@ -59,7 +66,10 @@ export default class Sidebar {
       }
     })
   }
-
+  /**
+   * 
+   * @param {*} widget 
+   */
   addWidget (widget) {
     this.widgets.push(widget)
     this.widgetContainer.appendChild(widget.getElement())
@@ -87,22 +97,11 @@ export default class Sidebar {
    * @param {PointerEvent} evt 
    */
   selectElement (evt) {
+    console.log(evt)
     let ele = null
 
-    if (evt instanceof PointerEvent) {
-        ele = evt.target.parentElement
-    } else {
-      ele = evt
-    }
-
-    if (ele.tagName != 'DIV') {
-      ele = ele.parentElement
-    }
-    if (ele.classList.contains("pb-element-button")) {
-      ele = ele.parentElement
-    }
-    if (ele.classList.contains("pb-element-toolbar")) {
-      ele = ele.parentElement
+    if (!evt instanceof HTMLDivElement) {
+        throw new UnexpectedError("Expecting HTMLDivElement")
     }
 
     this.selectedElement = ele

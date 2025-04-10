@@ -1,7 +1,6 @@
 'use strict'
-import Item from '../item.js'
-import { createIcon } from '../helpers.js'
-import ElementCreator from '../helpers/element-creator.js'
+import Item from '../Item.js'
+import { createIcon, ElementCreator } from '../helpers'
 
 const row = new Item()
 
