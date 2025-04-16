@@ -22,9 +22,11 @@ export default class EditSidebar {
       this.createWidgets()
     }
   }
-  /**
-   * 
-   * @param {Item} widget 
+
+   /**
+   * Updates the style of the selected element.
+   * @param {object} widget - The widget associated with the style change.
+   * @param {string} value - The new value for the style property.
    * @param {String} value 
    */
   changeStyle (widget, value) {
@@ -32,6 +34,10 @@ export default class EditSidebar {
     this.selectedElement.style[settings.path] = this.getFormattedValue(value, settings.type)
   }
 
+    /**
+   * Formats the style value based on its type.
+   * @param {string} value - The value to format.
+   * @param {string} type - The type of the value (e.g., 'pixel', 'color').
   getFormattedValue (value, type) {
     switch (type) {
       case 'pixel':
@@ -42,8 +48,30 @@ export default class EditSidebar {
         throw Error('Unknown type ' + type)
     }
   }
+
   /**
-   * 
+   * Updates the padding of the selected element.
+   * @param {string} value - The new padding value.
+   */
+  updatePadding(value) {
+    console.log("updatePadding called");
+    this.updateStyle("padding", value);
+  }
+
+  /**
+   * Updates the margin of the selected element.
+   * @param {string} value - The new margin value.
+   */
+
+   updateStyle(property, value) {
+    console.log(`updateStyle called with property: ${property}, value: ${value}, item:`, this.item);
+    this.item.style[property] = value;
+  }
+  /**
+   * Creates and adds widgets to the sidebar.
+   * Each widget is associated with a specific style property.
+   * When a widget's value changes, the associated style property of the selected element is updated.
+   *
    */
   createWidgets () {
     const sidebar = this
@@ -69,7 +97,7 @@ export default class EditSidebar {
     })
   }
   /**
-   * 
+   *Adds a widget to the sidebar.
    * @param {*} widget 
    */
   addWidget (widget) {
@@ -78,7 +106,7 @@ export default class EditSidebar {
     widget.fireEvent('attach')
   }
 
-  _create () {
+  _create() {
     this.element = document.createElement('div')
     this.element.classList.add('pb-' + this.itemType + '-settings')
 
@@ -94,10 +122,11 @@ export default class EditSidebar {
     // Hide the sidebar.
     this.element.style.display = 'none'
   }
-  /**
-   * 
-   * @param {PointerEvent} evt 
+   /**
+   * Selects an element and prepares the sidebar for editing.
+   * @param {PointerEvent} evt - The event that triggered the selection.
    */
+
   selectElement (evt) {
     console.log(evt)
     let ele = null
@@ -177,6 +206,32 @@ export default class EditSidebar {
     this.listeners[eventType].push(listener)
   }
 
+  /**
+   * Updates the text color of the selected element.
+   * @param {string} value - The new text color value.
+   */
+  updateTextColor(value) {
+    console.log("updateTextColor called");
+    this.updateStyle("color", value);
+  }
+
+  /**
+   * Updates the background color of the selected element.
+   * @param {string} value - The new background color value.
+   */
+  updateBackgroundColor(value) {
+    console.log("updateBackgroundColor called");
+    this.updateStyle("backgroundColor", value);
+  }
+
+    /**
+   * Updates the margin of the selected element.
+   * @param {string} value - The new margin value.
+   */
+  updateMargin(value) {
+    console.log("updateMargin called");
+    this.updateStyle("margin", value);
+  }
   setItemType (itemType) {
     this.itemType = itemType
   }
