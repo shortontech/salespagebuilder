@@ -31,7 +31,6 @@ export default class Item {
     if (ele instanceof Event) {
       throw new UnexpectedError("Element is not a valid HTMLElement")
     }
-    console.log(ele)
 
 
     this.selectedElement = ele
@@ -59,12 +58,10 @@ export default class Item {
   }
 
   moveUp () {
-    console.log('Move up called.')
     return this
   }
 
   moveDown () {
-    console.log('Move down called.')
     return this
   }
 

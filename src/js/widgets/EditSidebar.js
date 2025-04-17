@@ -34,10 +34,11 @@ export default class EditSidebar {
     this.selectedElement.style[settings.path] = this.getFormattedValue(value, settings.type)
   }
 
-    /**
-   * Formats the style value based on its type.
-   * @param {string} value - The value to format.
-   * @param {string} type - The type of the value (e.g., 'pixel', 'color').
+  /**
+    * Formats the style value based on its type.
+    * @param {string} value - The value to format.
+    * @param {string} type - The type of the value (e.g., 'pixel', 'color').
+    */
   getFormattedValue (value, type) {
     switch (type) {
       case 'pixel':
@@ -54,7 +55,6 @@ export default class EditSidebar {
    * @param {string} value - The new padding value.
    */
   updatePadding(value) {
-    console.log("updatePadding called");
     this.updateStyle("padding", value);
   }
 
@@ -64,7 +64,6 @@ export default class EditSidebar {
    */
 
    updateStyle(property, value) {
-    console.log(`updateStyle called with property: ${property}, value: ${value}, item:`, this.item);
     this.item.style[property] = value;
   }
   /**
@@ -127,20 +126,14 @@ export default class EditSidebar {
    * @param {PointerEvent} evt - The event that triggered the selection.
    */
 
-  selectElement (evt) {
-    console.log('selectElement - evt:', evt);
-    let ele = evt.target;
-    console.log('selectElement - ele:', ele);
+  selectElement (ele) {
 
     // if (!evt instanceof HTMLDivElement) {
     //     throw new UnexpectedError("Expecting HTMLDivElement")
     // }
     if(ele != null){
       this.item = ele
-    } else{
-      console.log('selectElement - ele is null');
     }
-    console.log('selectElement - this.item:', this.item);
     this.selectedElement = ele
     this.show()
     this.fireEvent('change', ele)
@@ -217,7 +210,6 @@ export default class EditSidebar {
    * @param {string} value - The new text color value.
    */
   updateTextColor(value) {
-    console.log("updateTextColor called");
     this.updateStyle("color", value);
   }
 
@@ -226,7 +218,6 @@ export default class EditSidebar {
    * @param {string} value - The new background color value.
    */
   updateBackgroundColor(value) {
-    console.log("updateBackgroundColor called");
     this.updateStyle("backgroundColor", value);
   }
 
@@ -235,7 +226,6 @@ export default class EditSidebar {
    * @param {string} value - The new margin value.
    */
   updateMargin(value) {
-    console.log("updateMargin called");
     this.updateStyle("margin", value);
   }
   setItemType (itemType) {
