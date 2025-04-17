@@ -128,13 +128,19 @@ export default class EditSidebar {
    */
 
   selectElement (evt) {
-    console.log(evt)
-    let ele = null
+    console.log('selectElement - evt:', evt);
+    let ele = evt.target;
+    console.log('selectElement - ele:', ele);
 
-    if (!evt instanceof HTMLDivElement) {
-        throw new UnexpectedError("Expecting HTMLDivElement")
+    // if (!evt instanceof HTMLDivElement) {
+    //     throw new UnexpectedError("Expecting HTMLDivElement")
+    // }
+    if(ele != null){
+      this.item = ele
+    } else{
+      console.log('selectElement - ele is null');
     }
-
+    console.log('selectElement - this.item:', this.item);
     this.selectedElement = ele
     this.show()
     this.fireEvent('change', ele)
