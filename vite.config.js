@@ -7,5 +7,10 @@ export default defineConfig({
     sourcemap: true,
     outDir: '../dist',        // Output directory for production build
     minify: false,
+    rollupOptions: {
+      output: {
+        assetFileNames: 'assets/[name].[ext]' // This helps organize output
+      }
+    },
   },
 });
